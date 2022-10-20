@@ -1,0 +1,15 @@
+/node_modules
+package-lock.json
+
+#Documentation API 
+apidoc/
+
+#Logger 
+logs/
+
+
+# Variable d'environnement
+.env
+
+#TypeScript config
+/dist
