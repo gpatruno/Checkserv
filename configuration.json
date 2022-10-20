@@ -1,0 +1,15 @@
+{
+    "sender": {
+        "PORT": "3000",
+        "EMAIL": "default@mail.com",
+        "EMAIL_PASSWORD": "passwordMail",
+        "HOST": "smtpserver",
+        "PORT_EMAIL": "port use to send email"
+    },
+    "users": [
+        {
+          "name": "ME",
+          "email": "mailtosend@alert.com"  
+        }
+    ]
+  }

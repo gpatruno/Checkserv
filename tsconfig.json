@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "module": "CommonJS",
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,   // support typesystem compatibility
+      "resolveJsonModule": true,              // json imports
+      "pretty": true,
+      "sourceMap": true,
+      "allowJs": true,
+      "target": "ES6",
+      "outDir": "./dist",
+      "baseUrl": "./lib",
+      "paths": {
+        "*": [
+          "node_modules/*"
+        ]
+      }
+    },
+    "include": ["lib/**/*.ts", "server.ts", "config/*.ts"],
+    "exclude": ["node_modules"]
+  }
