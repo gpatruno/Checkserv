@@ -1,6 +1,6 @@
 {
   "APP": {
-    "PORT": 3000
+    "CLEAR_LOG": true
   },
   "sender": {
     "EMAIL": "example@mail.com",

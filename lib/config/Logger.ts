@@ -1,11 +1,12 @@
 import { transports, createLogger, format } from 'winston';
 import * as path from 'path';
 import fs = require('fs');
+import config = require("config");
 
-if (process.env.RESET_LOG === "true") {
+if (config.get('APP.CLEAR_LOG') === true) {
     try {
-        fs.truncate('./Log/default.log', 0, function () { console.log('Default log clear !') });
-        fs.truncate('./Log/error.log', 0, function () { console.log('Error log clear !') });
+        fs.truncate('./logs/default.log', 0, function () { console.log('Default log clear !') });
+        fs.truncate('./logs/error.log', 0, function () { console.log('Error log clear !') });
     } catch (error) {
         console.error('Something goes wrong for clear Log : ', error);
     }

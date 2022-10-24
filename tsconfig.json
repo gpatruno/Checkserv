@@ -16,6 +16,6 @@
         ]
       }
     },
-    "include": ["lib/**/*.ts", "server.ts", "config/*.ts"],
+    "include": ["lib/**/*.ts", "server.ts"],
     "exclude": ["node_modules"]
   }
