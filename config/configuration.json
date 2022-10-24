@@ -1,0 +1,17 @@
+{
+  "APP": {
+    "PORT": 3000
+  },
+  "sender": {
+    "EMAIL": "",
+    "EMAIL_PASSWORD": "",
+    "HOST": "",
+    "PORT_EMAIL": 465
+  },
+  "users": [
+    {
+      "name": "",
+      "email": ""
+    }
+  ]
+}

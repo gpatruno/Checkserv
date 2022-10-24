@@ -1,14 +1,12 @@
 import * as express from 'express';
 import http = require('http');
+import * as config from 'config';
 import UserAgent = require('express-useragent');
 import { Application, Request, Response } from 'express';
-import * as dotenv from 'dotenv';
 import MailController = require('./lib/controller/MailController'); 
 
 var bodyParser = require('body-parser');
 
-// Import dotenv & Logger
-dotenv.config();
 const app: Application = express();
 const userAgent = UserAgent;
 const mailCtrl = new MailController();
@@ -49,9 +47,9 @@ app.get('/test', (req: Request, res: Response) => {
 //Démarrage de l'API
 const httpServer = http.createServer(app);
 
-httpServer.listen(process.env.PORT, () => {
-    Logger.info('INFO - AlertByMail [' + process.env.NODE_ENV + '] - API Started on port : ' + process.env.PORT + ' - Deploy at : ' + new Date());
-    console.log('INFO - AlertByMail [' + process.env.NODE_ENV + '] - API Started on port : ' + process.env.PORT + ' - Deploy at : ' + new Date());
+httpServer.listen(config.get('APP.PORT'), () => {
+    Logger.info('INFO - AlertByMail [' + process.env.NODE_ENV + '] - API Started on port : ' + config.get('APP.PORT') + ' - Deploy at : ' + new Date());
+    console.log('INFO - AlertByMail [' + process.env.NODE_ENV + '] - API Started on port : ' + config.get('APP.PORT') + ' - Deploy at : ' + new Date());
 });
 
 export = app;

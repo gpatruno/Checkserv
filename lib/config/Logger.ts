@@ -4,7 +4,6 @@ import fs = require('fs');
 
 if (process.env.RESET_LOG === "true") {
     try {
-        fs.truncate('./Log/exception.log', 0, function () { console.log('Exception log clear !') });
         fs.truncate('./Log/default.log', 0, function () { console.log('Default log clear !') });
         fs.truncate('./Log/error.log', 0, function () { console.log('Error log clear !') });
     } catch (error) {
@@ -47,11 +46,13 @@ const LoggerManager = (moduleName: string) => createLogger({
         })
     ],
     exceptionHandlers: [
-        new transports.File({ filename: './logs/exception.log' })
+        new transports.Console()
+        //new transports.File({ format: formatError, filename: './logs/error.log' })
     ],
     rejectionHandlers: [
-        new transports.File({ filename: './logs/exception.log' })
-      ]
+        new transports.Console()
+        //new transports.File({ format: formatError, filename: './logs/error.log' })
+    ]
 });
 
 export = LoggerManager;
