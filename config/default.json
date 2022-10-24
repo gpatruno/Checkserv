@@ -8,10 +8,15 @@
     "HOST": "",
     "PORT_EMAIL": 465
   },
-  "users": [
+  "user": [
     {
-      "name": "",
-      "email": ""
+      "name": "User 1",
+      "email": "user1.viewer@mail.com"
+    },
+    {
+      "name": "User 2",
+      "email": "user2.viewer@mail.com"
     }
-  ]
+  ],
+  "server": []
 }

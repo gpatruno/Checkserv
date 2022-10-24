@@ -10,12 +10,19 @@ interface IUser {
   email: string;
 }
 
+interface IServer {
+  name?: string;
+  host: string;
+  port?: number;
+}
+
 interface IConfig {
   APP: {
     PORT: number;
   };
   sender: ISender;
-  users: IUser[];
+  user: IUser[];
+  server: IServer[];
 }
 
-export { IConfig, ISender, IUser };
+export { IConfig, ISender, IUser, IServer };

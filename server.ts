@@ -15,6 +15,8 @@ const mailCtrl = new MailController();
 import * as LoggerManager from './lib/config/Logger';
 const Logger = LoggerManager(__filename);
 
+mailCtrl.sendMail('Le serveur est DOWN', 'mira-ceti.ovh');
+
 /**
  * @apiHeader {String} Access-Control-Allow-Origin *
  */
@@ -23,9 +25,8 @@ app.use(bodyParser.json({ limit: '500mb' }));
 app.use(bodyParser.urlencoded({ limit: '500mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '500mb' }));
 app.use(function (req: any, res, next) {
-    // console.log(req.useragent);
     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization ");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept ");
     res.header("Access-Control-Allow-Methods", "GET");
     next();
 });
@@ -39,8 +40,8 @@ app.get('/alive', (req: Request, res: Response) => {
     res.send({ sucess: true, message: 'I m Here don\'t worry' });
 });
 
-app.get('/test', (req: Request, res: Response) => {
-    mailCtrl.sendInitPwd("test email","gaetan.patruno@gmail.com")
+app.get('/test' , (req: Request, res: Response) => {
+    mailCtrl.sendInitPwd("test email","gaetan.patruno@gmail.com");
     res.send({ sucess: true, message: 'I m Here don\'t worry' });
 });
 

@@ -1,0 +1,31 @@
+{
+  "APP": {
+    "PORT": 3000
+  },
+  "sender": {
+    "EMAIL": "example@mail.com",
+    "EMAIL_PASSWORD": "Password1234",
+    "HOST": "smtp.example.com",
+    "PORT_EMAIL": 465 
+  },
+  "user": [
+    {
+      "name": "User 1",
+      "email": "user.viewer@mail.com"
+    },
+    {
+      "name": "User 2",
+      "email": "user2.viewer@mail.com"
+    }
+  ],
+  "server": [
+    {
+      "name": "Server DATABASE",
+      "host": "125.0.0.1"
+    }, 
+    {
+      "name": "Server Web",
+      "host": "alertbymail.com"
+    }
+  ]
+}
