@@ -1,12 +1,13 @@
 {
   "APP": {
-    "CLEAR_LOG": true
+    "CLEAR_LOG": true,
+    "CRON": "* * * 5 *"
   },
   "sender": {
     "EMAIL": "example@mail.com",
     "EMAIL_PASSWORD": "Password1234",
     "HOST": "smtp.example.com",
-    "PORT_EMAIL": 465 
+    "PORT_EMAIL": 450 
   },
   "user": [
     {
@@ -20,12 +21,14 @@
   ],
   "server": [
     {
-      "name": "Server DATABASE",
-      "host": "125.0.0.1"
+      "name": "Server Demo",
+      "host": "demo.domaine-name.com",
+      "method": "ping"
     }, 
     {
       "name": "Server Web",
-      "host": "alertbymail.com"
+      "host": "alertbymail.com",
+      "method": "https"
     }
   ]
 }

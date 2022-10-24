@@ -1,10 +1,11 @@
 import * as cron from "node-cron";
 import * as config from "config";
-
 import { IServer } from "../Interface";
-const mailConf: IServer = config.get("server");
+import ServerController = require("./ServerController");
 
-console.log("CRON CONTROLLER STARTED AT " + new Date().toLocaleString());
+const lServer: IServer[] = config.get("server");
+const servCtrl = new ServerController();
+
 // ┌────────────── second (optional)
 // │ ┌──────────── minute
 // │ │ ┌────────── hour
@@ -16,19 +17,44 @@ console.log("CRON CONTROLLER STARTED AT " + new Date().toLocaleString());
 // * * * * * *  = Every minute
 // */2 * * * *  = Every 2 minutes
 
-let isAlive = true;
 class CronController {
-    
+
     shortPulse() {
         cron.schedule("*/5 * * * *", () => {
-            console.log(new Date().toLocaleString());
+            console.log('shortPulse: ' + new Date().toLocaleString());
+            this.pulseServer();
         }).start;
     }
 
     longPulse() {
         cron.schedule("* 1 * * *", () => {
-            console.log(new Date().toLocaleString());
+            console.log('longPulse: ' + new Date().toLocaleString());
+            this.pulseServer();
         }).start;
+    }
+
+    customPulse() {
+        cron.schedule("* * * 5 *", () => {
+            console.log('customPulse: ' + new Date().toLocaleString());
+            this.pulseServer();
+        }).start;
+    }
+
+    pulseServer() {
+        for (let index: number = 0; index < lServer.length; index++) {
+            const aServ: IServer = lServer[index];
+            console.log(' method: ' + aServ.method + ' server: ' + aServ.name);
+            switch (aServ.method) {
+                case "wget":
+                case "http":
+                case "https":
+                    servCtrl.wgetServer(aServ);
+                    break;
+                case "ping":
+                default:
+                    servCtrl.pingServer(aServ);
+            }
+        }
     }
 }
 

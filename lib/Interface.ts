@@ -14,6 +14,7 @@ interface IServer {
   name?: string;
   host: string;
   port?: number;
+  method?: string;
 }
 
 interface IConfig {

@@ -3,7 +3,7 @@ import fs = require("fs");
 import * as path from "path";
 import * as config from "config";
 
-import { IConfig, ISender, IUser } from "../Interface";
+import { ISender, IServer, IUser } from "../Interface";
 const mailConf: ISender = config.get("sender");
 
 const transporter = nodemailer.createTransport({
@@ -29,11 +29,7 @@ const mailOptions = {
 
 class MailController {
 
-    /**
-     * sendMail
-     *
-     */
-    async sendMail(title: string, server: string) {
+    async initMail(server: IServer, state: boolean) {
         const listTO: IUser[] = config.get("user");
         let To: string[] = [];
         for (let index: number = 0; index < listTO.length; index++) {
@@ -41,22 +37,15 @@ class MailController {
             To.push(element.email);
         }
         mailOptions.to = To;
-        mailOptions.subject = "[" + server + "] " + title + " à " + new Date().toISOString();
+        const title = (state) ? 'Le serveur est UP' : 'Le serveur est DOWN';
+        mailOptions.subject = "[" + server.name + "] " + title + " à " + new Date().toLocaleString();
         console.log(mailOptions);
+        this.sendMail(server, state);
     }
 
-    /**
-     * sendInitPsw
-     *
-     * @param fullname string
-     * @param email string
-     * @param token string
-     * @param login string
-     */
-    async sendInitPwd(fullname: string, email: string): Promise<boolean> {
+    async sendMail(server: IServer, state: boolean): Promise<boolean> {
         let result = false;
-        mailOptions.to = email;
-        mailOptions.subject = "Initialisation du mot de passe";
+
         try {
             let pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailStateChange.html");
             const tmpMailInit = fs.readFileSync(pathToTemplate, {
@@ -64,8 +53,9 @@ class MailController {
                 flag: "r",
             });
 
-            let template: string = tmpMailInit.replace("$$username$$", fullname);
-            template = template.replace("$$identifiant$$", fullname);
+            let template: string = tmpMailInit.replace("$$datetime$$", new Date().toLocaleString());
+            template = template.replace("$$host$$", server.host);
+            template = template.replace("$$state$$", (state) ? 'UP' : 'DOWN');
             mailOptions.html = template;
 
             result = await this.wrapedSendMail(mailOptions);
@@ -92,7 +82,7 @@ class MailController {
         return new Promise((resolve, reject) => {
             transporter.sendMail(mailOptions, function (error: Error, info: { response: string }) {
                 if (error) {
-                    console.error("GP ERROr", error);
+                    console.error("GP ERROR", error);
                     resolve(false); // or use rejcet(false) but then you will have to handle errors
                 } else {
                     console.log("Email sent: " + info.response);
