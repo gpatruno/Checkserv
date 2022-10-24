@@ -1,0 +1,17 @@
+{
+  "APP": {
+    "PORT": 3000
+  },
+  "sender": {
+    "EMAIL": "exemple@mail.com",
+    "EMAIL_PASSWORD": "ExemplePassword1234",
+    "HOST": "smtp.server.host",
+    "PORT_EMAIL": 465 
+  },
+  "users": [
+    {
+      "name": "User 1",
+      "email": "user.viewer@mail.com"
+    }
+  ]
+}
