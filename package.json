@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node ./dist/server.js",
+    "test": "node ./dist/server.js",
+    "start": "forever start ./dist/server.js",
     "dev": "nodemon --verbose"
   },
   "author": "gpatruno",
