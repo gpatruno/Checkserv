@@ -17,6 +17,7 @@ class ServerController {
 
     async pingServer(aServ: IServer) {
         let isAlive: boolean = await this.wrapedPing(aServ.host);
+        Logger.info('PING [' + aServ.name + '] isAlive: ' + isAlive);
         this.changeState(aServ, isAlive);
     }
 
@@ -36,10 +37,10 @@ class ServerController {
         let isAlive: boolean = await new Promise((resolve, reject) => {
             tcpPortUsed.check(aServ.port, aServ.host)
                 .then(function (inUse: string) {
-                    Logger.info(aServ.host + ' -Port ' + aServ.port + ' usage: ' + inUse);
+                    Logger.info('TCP [' + aServ.name + '] port: ' + aServ.port + ' isAlive: ' + inUse);
                     resolve(true);
                 }, function (err: { message: any; }) {
-                    Logger.error('Error on check:', err.message);
+                    Logger.error('TCP [' + aServ.name + '] Error on check port: ' + aServ.port, err);
                     resolve(false);
                 });
         });
@@ -48,11 +49,11 @@ class ServerController {
 
     changeState(aServ: IServer, isAlive: boolean) {
         if ((mapAlive.get(aServ.host) !== isAlive)) {
-            Logger.info(aServ.name + ' - Server change state: ' + isAlive);
+            Logger.info('--->[' + aServ.name + '] WARNING: Server change state: ' + isAlive);
             mapAlive.set(aServ.host, isAlive);
             mailCtrl.initMail(aServ, mapAlive.get(aServ.host));
         } else {
-            Logger.info(aServ.name + ' don\'t change state still: ' + ((isAlive) ? 'Alive' : 'Down'));
+            Logger.info('--->[' + aServ.name + '] state don\'t change still: ' + ((isAlive) ? 'UP' : 'DOWN'));
         }
     }
 

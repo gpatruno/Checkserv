@@ -18,7 +18,7 @@ const servCtrl = new ServerController();
 // │ │ │ │ │ │
 // * * * * * *  = Every minute
 // */5 * * * *  = Every 5 minutes
-
+// 5 */4 * * *  = At minute 5 past every 4th hour
 class CronController {
 
     shortPulse() {
@@ -30,7 +30,7 @@ class CronController {
     }
 
     longPulse() {
-        cron.schedule("* 1 * * *", () => {
+        cron.schedule("5 */4 * * *", () => {
             Logger.info('CRON: LONG ACTIVE');
             Logger.info('longPulse: ' + new Date().toLocaleString());
             this.pulseServer();

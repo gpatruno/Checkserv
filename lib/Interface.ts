@@ -11,19 +11,17 @@ interface IUser {
 }
 
 interface IServer {
-  name?: string;
+  name: string;
   host: string;
-  port?: number;
+  port: number;
   method?: string;
 }
 
-interface IConfig {
-  APP: {
-    PORT: number;
-  };
-  sender: ISender;
-  user: IUser[];
-  server: IServer[];
+interface IApp {
+  CLEAR_LOG: boolean,
+  CUSTOM_CRON: string,
+  SHORT_CRON: boolean,
+  LONG_CRON: boolean
 }
 
-export { IConfig, ISender, IUser, IServer };
+export { IApp, ISender, IUser, IServer };
