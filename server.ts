@@ -9,11 +9,9 @@ const cronCtrl = new CronController();
 
 import * as config from "config";
 if (config.has('APP.SHORT_CRON') && config.get('APP.SHORT_CRON')) {
-    Logger.info('CRON: SHORT ACTIVE');
     cronCtrl.shortPulse();
 }
 if (config.has('APP.LONG_CRON') && config.get('APP.LONG_CRON')) {
-    Logger.info('CRON: LONG ACTIVE');
     cronCtrl.longPulse();
 }
 if (config.has('APP.CUSTOM_CRON') && config.get('APP.CUSTOM_CRON') !== undefined && config.get('APP.CUSTOM_CRON') !== null) {

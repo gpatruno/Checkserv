@@ -1,6 +1,6 @@
 {
   "APP": {
-    "CLEAR_LOG": true,
+    "CLEAR_LOG": false,
     "CUSTOM_CRON": null,
     "SHORT_CRON": true,
     "LONG_CRON": false
@@ -31,8 +31,14 @@
     {
       "name": "Server Web",
       "host": "alertbymail.com",
-      "method": "https",
+      "method": "tcp",
       "port": 443
+    }, 
+    {
+      "name": "Server Database",
+      "host": "database.domaine.com",
+      "method": "tcp",
+      "port": 5432
     }
   ]
 }

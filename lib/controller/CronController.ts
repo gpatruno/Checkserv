@@ -22,15 +22,17 @@ const servCtrl = new ServerController();
 class CronController {
 
     shortPulse() {
+        Logger.info('CRON: SHORT ACTIVE');
         cron.schedule("*/5 * * * *", () => {
-            console.log('shortPulse: ' + new Date().toLocaleString());
+            Logger.info('shortPulse: ' + new Date().toLocaleString());
             this.pulseServer();
         }).start;
     }
 
     longPulse() {
         cron.schedule("* 1 * * *", () => {
-            console.log('longPulse: ' + new Date().toLocaleString());
+            Logger.info('CRON: LONG ACTIVE');
+            Logger.info('longPulse: ' + new Date().toLocaleString());
             this.pulseServer();
         }).start;
     }
@@ -39,7 +41,7 @@ class CronController {
         if (cron.validate(config.get('APP.CUSTOM_CRON'))) {
             Logger.info('CRON: CUSTOM ACTIVE');
             cron.schedule(config.get('APP.CUSTOM_CRON'), () => {
-                console.log('customPulse: ' + new Date().toLocaleString());
+                Logger.info('customPulse: ' + new Date().toLocaleString());
                 this.pulseServer();
             }).start;
         } else {
@@ -60,7 +62,6 @@ class CronController {
 
     pulseServer() {
         lServer.forEach((aServ: IServer) => {
-            console.log(' method: ' + aServ.method + ' server: ' + aServ.name);
             switch (aServ.method) {
                 case "ping":
                     servCtrl.pingServer(aServ);

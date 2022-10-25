@@ -1,11 +1,12 @@
 import * as nodemailer from "nodemailer";
 import fs = require("fs");
 import * as path from "path";
-import * as config from "config";
-
+import * as config from "config"; 
+import * as LoggerManager from "../config/Logger";
 import { ISender, IServer, IUser } from "../Interface";
-const mailConf: ISender = config.get("sender");
 
+const Logger = LoggerManager(__filename);
+const mailConf: ISender = config.get("sender");
 const transporter = nodemailer.createTransport({
     host: mailConf.HOST,
     port: mailConf.PORT_EMAIL,
@@ -57,7 +58,7 @@ class MailController {
 
             result = await this.wrapedSendMail(options);
         } catch (error) {
-            console.log(error);
+            Logger.error(error);
         }
 
         return result;
@@ -79,10 +80,10 @@ class MailController {
         return new Promise((resolve, reject) => {
             transporter.sendMail(mailOptions, function (error: Error, info: { response: string }) {
                 if (error) {
-                    console.error("GP ERROR", error);
-                    resolve(false); // or use rejcet(false) but then you will have to handle errors
+                    Logger.error(error);
+                    resolve(false);
                 } else {
-                    console.log("Email sent: " + info.response);
+                    Logger.info("Email sent: " + info.response);
                     resolve(true);
                 }
             });

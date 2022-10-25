@@ -1,9 +1,11 @@
 import * as config from "config";
 import * as ping from "ping";
+import * as LoggerManager from "../config/Logger";
+import tcpPortUsed = require('tcp-port-used');
 import { IServer } from "../Interface";
 import MailController = require("./MailController");
-import tcpPortUsed = require('tcp-port-used');
 
+const Logger = LoggerManager(__filename);
 const mailCtrl = new MailController();
 const mapAlive = new Map<string, boolean>();
 const lServer: IServer[] = config.get("server");
@@ -34,10 +36,10 @@ class ServerController {
         let isAlive: boolean = await new Promise((resolve, reject) => {
             tcpPortUsed.check(aServ.port, aServ.host)
                 .then(function (inUse: string) {
-                    console.log(aServ.host + ' -Port ' + aServ.port + ' usage: ' + inUse);
+                    Logger.info(aServ.host + ' -Port ' + aServ.port + ' usage: ' + inUse);
                     resolve(true);
                 }, function (err: { message: any; }) {
-                    console.error('Error on check:', err.message);
+                    Logger.error('Error on check:', err.message);
                     resolve(false);
                 });
         });
@@ -46,11 +48,11 @@ class ServerController {
 
     changeState(aServ: IServer, isAlive: boolean) {
         if ((mapAlive.get(aServ.host) !== isAlive)) {
-            console.log('Server change state: ' + isAlive);
+            Logger.info(aServ.name + ' - Server change state: ' + isAlive);
             mapAlive.set(aServ.host, isAlive);
             mailCtrl.initMail(aServ, mapAlive.get(aServ.host));
         } else {
-            console.log(aServ.name + ' don\'t change state still: ' + ((isAlive) ? 'Alive' : 'Down'));
+            Logger.info(aServ.name + ' don\'t change state still: ' + ((isAlive) ? 'Alive' : 'Down'));
         }
     }
 

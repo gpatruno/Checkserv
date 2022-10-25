@@ -47,12 +47,12 @@ const LoggerManager = (moduleName: string) => createLogger({
         })
     ],
     exceptionHandlers: [
-        new transports.Console()
-        //new transports.File({ format: formatError, filename: './logs/error.log' })
+        //new transports.Console()
+        new transports.File({ format: formatError, filename: './logs/error.log' })
     ],
     rejectionHandlers: [
-        new transports.Console()
-        //new transports.File({ format: formatError, filename: './logs/error.log' })
+        //new transports.Console()
+        new transports.File({ format: formatError, filename: './logs/error.log' })
     ]
 });
 
