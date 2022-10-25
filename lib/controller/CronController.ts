@@ -2,6 +2,8 @@ import * as cron from "node-cron";
 import * as config from "config";
 import { IServer } from "../Interface";
 import ServerController = require("./ServerController");
+import * as LoggerManager from "../config/Logger";
+const Logger = LoggerManager(__filename);
 
 const lServer: IServer[] = config.get("server");
 const servCtrl = new ServerController();
@@ -15,7 +17,7 @@ const servCtrl = new ServerController();
 // │ │ │ │ │ │
 // │ │ │ │ │ │
 // * * * * * *  = Every minute
-// */2 * * * *  = Every 2 minutes
+// */5 * * * *  = Every 5 minutes
 
 class CronController {
 
@@ -34,27 +36,43 @@ class CronController {
     }
 
     customPulse() {
-        cron.schedule("* * * 5 *", () => {
-            console.log('customPulse: ' + new Date().toLocaleString());
-            this.pulseServer();
-        }).start;
+        if (cron.validate(config.get('APP.CUSTOM_CRON'))) {
+            Logger.info('CRON: CUSTOM ACTIVE');
+            cron.schedule(config.get('APP.CUSTOM_CRON'), () => {
+                console.log('customPulse: ' + new Date().toLocaleString());
+                this.pulseServer();
+            }).start;
+        } else {
+            if (config.get('APP.CUSTOM_CRON') === "TEST_MAIL") {
+                Logger.info('TEST MAIL CONFIGURATION !');
+                const testService: IServer = {
+                    name: "Test Mail",
+                    host: "test.mail.hostname",
+                    method: "MAIL",
+                    port: 0
+                }
+                servCtrl.testConf(testService);
+            } else {
+                Logger.error('Invalid cron format: ' + config.get('APP.CUSTOM_CRON'));
+            }
+        }
     }
 
     pulseServer() {
-        for (let index: number = 0; index < lServer.length; index++) {
-            const aServ: IServer = lServer[index];
+        lServer.forEach((aServ: IServer) => {
             console.log(' method: ' + aServ.method + ' server: ' + aServ.name);
             switch (aServ.method) {
+                case "ping":
+                    servCtrl.pingServer(aServ);
+                    break;
+                case "telnet":
                 case "wget":
                 case "http":
                 case "https":
-                    servCtrl.wgetServer(aServ);
-                    break;
-                case "ping":
                 default:
-                    servCtrl.pingServer(aServ);
+                    servCtrl.telnet(aServ);
             }
-        }
+        });
     }
 }
 

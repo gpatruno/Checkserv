@@ -1,7 +1,9 @@
 {
   "APP": {
     "CLEAR_LOG": true,
-    "CRON": "* * * 5 *"
+    "CUSTOM_CRON": null,
+    "SHORT_CRON": true,
+    "LONG_CRON": false
   },
   "sender": {
     "EMAIL": "example@mail.com",
@@ -23,12 +25,14 @@
     {
       "name": "Server Demo",
       "host": "demo.domaine-name.com",
-      "method": "ping"
+      "method": "ping",
+      "port": 22
     }, 
     {
       "name": "Server Web",
       "host": "alertbymail.com",
-      "method": "https"
+      "method": "https",
+      "port": 443
     }
   ]
 }

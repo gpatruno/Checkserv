@@ -20,30 +20,27 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const mailOptions = {
-    from: mailConf.EMAIL,
-    to: undefined,
-    subject: "",
-    html: "",
-};
+
 
 class MailController {
 
     async initMail(server: IServer, state: boolean) {
         const listTO: IUser[] = config.get("user");
-        let To: string[] = [];
-        for (let index: number = 0; index < listTO.length; index++) {
-            const element: IUser = listTO[index];
-            To.push(element.email);
-        }
-        mailOptions.to = To;
+        let lToSend: string[] = [];
+        listTO.forEach((aUser: IUser) => {
+            lToSend.push(aUser.email);
+        });
         const title = (state) ? 'Le serveur est UP' : 'Le serveur est DOWN';
-        mailOptions.subject = "[" + server.name + "] " + title + " à " + new Date().toLocaleString();
-        console.log(mailOptions);
-        this.sendMail(server, state);
+        const mailOptions = {
+            from: mailConf.EMAIL,
+            to: lToSend,
+            subject: "[" + server.name + "] " + title + " à " + new Date().toLocaleString(),
+            html: "",
+        };
+        this.sendMail(mailOptions, server, state);
     }
 
-    async sendMail(server: IServer, state: boolean): Promise<boolean> {
+    async sendMail(options: any, server: IServer, state: boolean): Promise<boolean> {
         let result = false;
 
         try {
@@ -56,9 +53,9 @@ class MailController {
             let template: string = tmpMailInit.replace("$$datetime$$", new Date().toLocaleString());
             template = template.replace("$$host$$", server.host);
             template = template.replace("$$state$$", (state) ? 'UP' : 'DOWN');
-            mailOptions.html = template;
+            options.html = template;
 
-            result = await this.wrapedSendMail(mailOptions);
+            result = await this.wrapedSendMail(options);
         } catch (error) {
             console.log(error);
         }

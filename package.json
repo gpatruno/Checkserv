@@ -27,6 +27,7 @@
     "nodemailer": "^6.8.0",
     "path": "^0.12.7",
     "ping": "^0.4.2",
+    "tcp-port-used": "^1.0.2",
     "winston": "^3.8.2"
   }
 }
