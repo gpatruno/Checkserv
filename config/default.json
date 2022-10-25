@@ -1,6 +1,9 @@
 {
   "APP": {
-    "CLEAR_LOG": true
+    "CLEAR_LOG": true,
+    "CUSTOM_CRON": null,
+    "SHORT_CRON": true,
+    "LONG_CRON": false
   },
   "sender": {
     "EMAIL": "",
@@ -8,15 +11,6 @@
     "HOST": "",
     "PORT_EMAIL": 465
   },
-  "user": [
-    {
-      "name": "User 1",
-      "email": "user1.viewer@mail.com"
-    },
-    {
-      "name": "User 2",
-      "email": "user2.viewer@mail.com"
-    }
-  ],
+  "user": [],
   "server": []
 }
