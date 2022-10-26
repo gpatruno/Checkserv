@@ -35,11 +35,41 @@ npm run start
 
 ### **Docker**
 
-> **TODO** make a Docker image.
+You can run AlertByMail with docker. 
+
+**Create config File**
+
+Before run docker image you need to create a configuration file 'default.json' into a config folder. See **Edit Configuration file** to edit it.
+
+**In command line**
+
+```Powershell
+docker run -d -v /path/to/config:/app/config -v /path/to/logs/:/app/logs --name <container_name> alertbymail
+```
+
+**Or with docker-compose**
+
+```Yaml
+version: '3.1'
+
+services:
+  alertbymail:
+    image: alertbymail
+    container_name: <container_name>
+    restart: unless-stopped
+    volumes:
+      - /path/to/config:/app/config
+      - /path/to/logs:/app/logs
+
+volumes:
+  alertbymail:
+```
 
 ## **Edit Configuration file**
 
 ### **APP Configuration**
+
+Edit the default.json file at AlertbyMail/config/default.json like the following demo : 
 
 ```JSON
 "APP": {
@@ -98,11 +128,17 @@ npm run start
 ]
 ```
 
-## **LOGS**
+## **Logs**
 
 When the service start for the first time the folder "logs" will be create. Inside two file : 
 - ```default.log``` - All logs (Mail send, pulse, state of server)
 - ```error.log``` - Error handler
+
+And if you use AlertByMail with forerver, two other file will be create by forever. At the root folder : 
+
+- ```abymailout.log``` -  Output forever 
+- ```abymailerror.log``` - Error forever
+
 
 ## **Module use**
 
