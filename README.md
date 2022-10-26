@@ -12,26 +12,44 @@
 
 ## **How to Setup AlertByMail**
 
-### **Windows** & **Linux**
+### **Windows** & **Linux** & **Mac OS**
 
 **1/** You need to install `node` and `npm` on your machine.
-After you need to install the module called `forever`, like this 
 
-```JavaScript
+After you need to install the module called `forever`, like this :
+
+```Shell
 npm i -g forever
 ```
 
-**2/** clone this repository edit conf file at AlertByMail/config/default.json.
+**2/** clone this repository and edit conf file at `AlertByMail/config/default.json`
 
-**3/** Build the project and run it.
+**3/** Install dependances, build the project and run it.
 
-```JavaScript
+**Intall**
+```Shell
+npm i
+```
+**Build**
+```Shell
 npm run build
 ```
-
-```JavaScript
+**Start**
+```Shell
 npm run start
 ```
+
+You can use these command :
+- `npm run start` - For start the service.
+- `npm run restart` - For restart the service. Usefull for refresh config file after edit.
+- `npm run stop` - For stop the service.
+- `npm run test` - For start the service and watch output
+
+If you need to know if the service is working you can use this command :
+```Shell
+forever list
+```
+
 
 ### **Docker**
 
@@ -142,9 +160,9 @@ And if you use AlertByMail with forerver, two other file will be create by forev
 
 ## **Module use**
 
-- Nodemailer - nodemailer // Send Mail
-- Ping - ping             // Ping Server
-- TCP - tcp-port-used     // Ping Server on custom port
-- Config - config // Use config file
-- Cron - node-cron // To schedule task
-- Logger - winston // To output Logs
+- Mail - `nodemailer` // Send Mail
+- Ping - `ping`             // Ping Server
+- TCP - `tcp-port-used`     // Ping Server on custom port
+- Config - `config` // Use config file
+- Cron - `node-cron` // To schedule task
+- Logger - `winston` // To output Logs
