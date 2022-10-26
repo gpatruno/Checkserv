@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc",
     "test": "node ./dist/server.js",
-    "start": "forever start ./dist/server.js",
+    "stop": "forever stop ./dist/server.js",
+    "restart": "forever restart ./dist/server.js",
+    "start": "forever start ./config/forever.json",
     "dev": "nodemon --verbose"
   },
   "author": "gpatruno",

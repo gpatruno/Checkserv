@@ -6,7 +6,8 @@ apidoc/
 
 #Logger 
 logs/
-
+abymailout.log
+abymailerror.log
 
 # Variable d'environnement
 .env
