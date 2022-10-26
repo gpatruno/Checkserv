@@ -61,8 +61,13 @@ Before run docker image you need to create a configuration file 'default.json' i
 
 **In command line**
 
+On Linux & Mac OS :
 ```Powershell
 docker run -d -v /path/to/config:/app/config -v /path/to/logs/:/app/logs --name <container_name> gpatruno/checkserv
+```
+On Windows :
+```Powershell
+docker run -d -v C:\path\to\config:/app/config -v C:\path\to\logs:/app/logs --name <container_name> gpatruno/checkserv
 ```
 
 **Or with docker-compose**
