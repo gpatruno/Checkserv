@@ -2,7 +2,7 @@
 import * as LoggerManager from "./lib/config/Logger";
 const Logger = LoggerManager(__filename);
 
-Logger.info('AlertByMail: SERVICE STARTED at ' + new Date().toLocaleString());
+Logger.info('Checkserv: SERVICE STARTED at ' + new Date().toLocaleString());
 
 import CronController = require("./lib/controller/CronController");
 const cronCtrl = new CronController();

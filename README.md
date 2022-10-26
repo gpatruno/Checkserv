@@ -1,7 +1,7 @@
-# Alert By Mail
+# CheckServ
 
-> **What is "Alert By Mail" ?**
-> This is a service that allows you to test connections on one or more servers. If the tested connection is unreachable then the service will send an email to all users specified in the conf file.
+> **What is "CheckServ" ?**
+> This is a service that allows you to test connections on one or more servers are up or one or more services are working. If the tested connection is unreachable then the service will send an email to all users specified in the conf file.
 
 ---
 
@@ -10,7 +10,7 @@
 - Ping :hostname
 - TCP :hsotname :port
 
-## **How to Setup AlertByMail**
+## **How to Setup Checkserv**
 
 ### **Windows** & **Linux** & **Mac OS**
 
@@ -22,7 +22,7 @@ After you need to install the module called `forever`, like this :
 npm i -g forever
 ```
 
-**2/** clone this repository and edit conf file at `AlertByMail/config/default.json`
+**2/** clone this repository and edit conf file at `Checkserv/config/default.json`
 
 **3/** Install dependances, build the project and run it.
 
@@ -53,7 +53,7 @@ forever list
 
 ### **Docker**
 
-You can run AlertByMail with docker. 
+You can run **checkserv** with docker. 
 
 **Create config File**
 
@@ -62,7 +62,7 @@ Before run docker image you need to create a configuration file 'default.json' i
 **In command line**
 
 ```Powershell
-docker run -d -v /path/to/config:/app/config -v /path/to/logs/:/app/logs --name <container_name> alertbymail
+docker run -d -v /path/to/config:/app/config -v /path/to/logs/:/app/logs --name <container_name> gpatruno/checkserv
 ```
 
 **Or with docker-compose**
@@ -71,8 +71,8 @@ docker run -d -v /path/to/config:/app/config -v /path/to/logs/:/app/logs --name 
 version: '3.1'
 
 services:
-  alertbymail:
-    image: alertbymail
+  checkserv:
+    image: gpatruno/checkserv
     container_name: <container_name>
     restart: unless-stopped
     volumes:
@@ -80,14 +80,14 @@ services:
       - /path/to/logs:/app/logs
 
 volumes:
-  alertbymail:
+  checkserv:
 ```
 
 ## **Edit Configuration file**
 
 ### **APP Configuration**
 
-Edit the default.json file at AlertbyMail/config/default.json like the following demo : 
+Edit the default.json file at checkserv/config/default.json like the following demo : 
 
 ```JSON
 "APP": {
@@ -152,10 +152,10 @@ When the service start for the first time the folder "logs" will be create. Insi
 - ```default.log``` - All logs (Mail send, pulse, state of server)
 - ```error.log``` - Error handler
 
-And if you use AlertByMail with forerver, two other file will be create by forever. At the root folder : 
+And if you use checkserv with forerver, two other file will be create by forever. At the root folder : 
 
-- ```abymailout.log``` -  Output forever 
-- ```abymailerror.log``` - Error forever
+- ```checkservout.log``` -  Output forever 
+- ```checkserverror.log``` - Error forever
 
 
 ## **Module use**

@@ -1,5 +1,5 @@
 {
-  "name": "alertbymail",
+  "name": "checkserv",
   "version": "1.0.0",
   "description": "Alert User by email when something goes wrong",
   "main": "server.ts",

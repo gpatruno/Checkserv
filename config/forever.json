@@ -1,9 +1,9 @@
 {
-    "pidFile": "abymail.pid",            // Do not touch
+    "pidFile": "checkserv.pid",            // Do not touch
     "append": true,                      // Do not touch
     "watch": false,                      // Can be change to watch output
     "script": "./dist/server.js",        // Do not touch
-    "logFile": "abymail.log",            // Can be change to an other destination or rename
-    "outFile": "./abymailout.log",       // Can be change to an other destination
-    "errFile": "./abymailerror.log"      // Can be change to an other destination
+    "logFile": "checkserv.log",            // Can be change to an other destination or rename
+    "outFile": "./checkservout.log",       // Can be change to an other destination
+    "errFile": "./checkserverror.log"      // Can be change to an other destination
 }

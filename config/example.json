@@ -30,7 +30,7 @@
     }, 
     {
       "name": "Server Web",
-      "host": "alertbymail.com",
+      "host": "checkserv.com",
       "method": "tcp",
       "port": 443
     }, 
