@@ -61,11 +61,11 @@ Before run docker image you need to create a configuration file 'default.json' i
 
 **In command line**
 
-On Linux & Mac OS :
+*On Linux & Mac OS :*
 ```Powershell
 docker run -d -v /path/to/config:/app/config -v /path/to/logs/:/app/logs --name <container_name> gpatruno/checkserv
 ```
-On Windows :
+*On Windows :*
 ```Powershell
 docker run -d -v C:\path\to\config:/app/config -v C:\path\to\logs:/app/logs --name <container_name> gpatruno/checkserv
 ```
@@ -94,61 +94,61 @@ volumes:
 
 Edit the default.json file at checkserv/config/default.json like the following demo : 
 
-```JSON
-"APP": {
-    "CLEAR_LOG": false,  // Default to 'false', set to 'true' to clear logs after the service restart
-    "CUSTOM_CRON": null, // If you want a custom cron, see https://crontab.guru/ for the format
-    "SHORT_CRON": true, // Default to 'true', set to 'false' to disable cron: Every minute 5 minutes
-    "LONG_CRON": false // Default to 'false', set to 'true' to enable cron: At minute 5 past every 4th hour.
-  }
+```YAML
+APP:
+  CLEAR_LOG: true
+  CUSTOM_CRON: '* * * * *'
+  SHORT_CRON: false
+  LONG_CRON: false
 ```
 
 ### **SMTP Configuration**
 
-```JSON
-"sender": {
-    "EMAIL": "",               // Mail to use to send Alert
-    "EMAIL_PASSWORD": "",      // Mail password
-    "HOST": "",                // SMTP Server
-    "PORT_EMAIL": 465          // Port SMTP Server
-  }
+```YAML
+SENDER:
+  EMAIL: example@mail.com
+  EMAIL_PASSWORD: Password1234
+  HOST: smtp.example.com
+  PORT_EMAIL: 450
 ```
 
 > If you want to test your SMTP Configuration, change the value of CUSTOM_CRON to set "TEST_MAIL" like this :
 
-```JSON
-"APP": {
-    "CLEAR_LOG": false,  
-    "CUSTOM_CRON": "TEST_MAIL", // Send a mail a the start of the service
-    "SHORT_CRON": false, 
-    "LONG_CRON": false
-  }
+```YAML
+APP:
+  CLEAR_LOG: true
+  CUSTOM_CRON: 'TEST_MAIL'
+  SHORT_CRON: false
+  LONG_CRON: false
 ```
 
 ### **User Configuration**
 
-```JSON
-"user": [                       // An array user to alert when a service change state
-    {
-      "name": "",               // Username, optionnal
-      "email": ""               // mail, mandatory
-    },{
-      "email": ""
-    }
-  ]
+```YAML
+user:                               # a list of users to be notified
+- email: user.viewer@mail.com
+- name: User 2                      # name is optionnal
+  email: user2.viewer@mail.com
 ```
 
 ### **Server Configuration**
 
-```JSON
-"server": [                 // An array server to ping every pulse
-    {
-      "name": "",           // Name of server, mandatory
-      "host": "",           // Host or Ip Adress, mandatory
-      "method": "telnet",   // Method to use : telnet / ping (default to 'telnet')
-      "port": 443           // port to use, mandatory
-    }
-]
+```YAML
+server:                             # A server list
+- name: Server Demo
+  host: demo.domaine-name.com
+  port: 22                          # port is optionnal, default port: 22
+  services:                         # A list of services to check from the server
+  - name: Postgres  # Database 
+    port: 5432
+  - name: API       # API 
+    port: 3000
+- name: Server Perso
+  host: perso.checkserv.com
+  defaultstate: false              # The default state is optional (default state: true), the attribute is useful to initialise the application with the state of a defined service, which avoids sending a useless mail as soon as the application is launched
+- name: Server Web
+  host: database.domaine.com
+  port: 80
 ```
 
 ## **Logs**
@@ -171,3 +171,15 @@ And if you use checkserv with forerver, two other file will be create by forever
 - Config - `config` // Use config file
 - Cron - `node-cron` // To schedule task
 - Logger - `winston` // To output Logs
+
+## **Test your configuration**
+
+### **Windows**
+
+With Powershell : 
+
+```Powershell
+Test-NetConnection -ComputerName <host> -port <port>
+```
+
+> Be care Powershell test only TCP connection, service listenning port udp will not work with Powershell and with this service

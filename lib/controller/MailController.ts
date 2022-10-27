@@ -3,10 +3,10 @@ import fs = require("fs");
 import * as path from "path";
 import * as config from "config"; 
 import * as LoggerManager from "../config/Logger";
-import { ISender, IServer, IUser } from "../Interface";
+import { ISender, IServer, IService, IUser } from "../Interface";
 
 const Logger = LoggerManager(__filename);
-const mailConf: ISender = config.get("sender");
+const mailConf: ISender = config.get("SENDER");
 const transporter = nodemailer.createTransport({
     host: mailConf.HOST,
     port: mailConf.PORT_EMAIL,
@@ -21,9 +21,39 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-
-
 class MailController {
+
+    async alertServer(server: IServer, state: boolean) {
+        const listTO: IUser[] = config.get("user");
+        let lToSend: string[] = [];
+        listTO.forEach((aUser: IUser) => {
+            lToSend.push(aUser.email);
+        });
+        const title = (state) ? 'Le serveur est UP' : 'Le serveur est DOWN';
+        const mailOptions = {
+            from: mailConf.EMAIL,
+            to: lToSend,
+            subject: "[" + server.name + "] " + title + " à " + new Date().toLocaleString(),
+            html: "",
+        };
+        this.sendMail(mailOptions, server, state);
+    }
+
+    async alertService(service: IService, server: IServer, state: boolean) {
+        const listTO: IUser[] = config.get("user");
+        let lToSend: string[] = [];
+        listTO.forEach((aUser: IUser) => {
+            lToSend.push(aUser.email);
+        });
+        const title = (state) ? 'Le service ' + service.name + ' est de nouveau UP' : 'Le service ' + service.name + ' est DOWN';
+        const mailOptions = {
+            from: mailConf.EMAIL,
+            to: lToSend,
+            subject: "[" + server.name + "] " + title + " à " + new Date().toLocaleString(),
+            html: "",
+        };
+        this.sendMail(mailOptions, server, state);
+    }
 
     async initMail(server: IServer, state: boolean) {
         const listTO: IUser[] = config.get("user");

@@ -13,8 +13,15 @@ interface IUser {
 interface IServer {
   name: string;
   host: string;
+  port?: number;
+  defaultstate?: boolean,
+  services?: IService[]
+}
+
+interface IService {
+  name: string;
   port: number;
-  method?: string;
+  defaultstate?: boolean,
 }
 
 interface IApp {
@@ -24,4 +31,4 @@ interface IApp {
   LONG_CRON: boolean
 }
 
-export { IApp, ISender, IUser, IServer };
+export { IApp, ISender, IUser, IServer, IService };
