@@ -7,7 +7,6 @@
 
 ## **Supported connection**
 
-- Ping :hostname
 - TCP :hsotname :port
 
 ## **How to Setup Checkserv**

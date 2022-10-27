@@ -8,12 +8,13 @@ const Logger = LoggerManager(__filename);
 const mailCtrl = new MailController();
 const mServer = new Map<string, boolean>();
 const mService = new Map<string, boolean>();
+
 // Initialisation
 const lServer: IServer[] = (config.has("server")) ? config.get("server") : [];
 lServer.forEach((aServer: IServer) => {
     mServer.set(aServer.host, (aServer.defaultstate !== undefined) ? aServer.defaultstate : true);
     const lService: IService[] = (aServer.services) ? aServer.services : [];
-    console.log('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length);
+    Logger.info('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length);
     lService.forEach((aService: IService) => {
         mService.set(aServer.host + aService.port, (aService.defaultstate !== undefined) ? aService.defaultstate : true);
     });
@@ -23,7 +24,7 @@ class ServerController {
 
     async checkServer(aServer: IServer): Promise<void> {
         const servUp: boolean = await this.telnet((aServer.port) ? aServer.port : 22, aServer.host);
-        console.log('GP checkServer: ' + aServer.host + ' ' + servUp);
+        Logger.info('checkServer: ' + aServer.host + ' ' + servUp);
         if ((mServer.get(aServer.host) !== servUp)) {
             this.serverChange(aServer, servUp);
         } else if (servUp) {
@@ -39,7 +40,7 @@ class ServerController {
 
     async checkService(aService: IService, aServer: IServer): Promise<void> {
         const servUp: boolean = await this.telnet(aService.port, aServer.host);
-        console.log('GP checkService: ' + aServer.host + ':' + aService.port + ' ' + servUp);
+        Logger.info('checkService: ' + aServer.host + ':' + aService.port + ' ' + servUp);
         if ((mService.get(aServer.host + aService.port) !== servUp)) {
             this.serviceChange(aService, aServer, servUp);
         } else {
@@ -53,7 +54,7 @@ class ServerController {
                 .then(function (inUse: string) {
                     resolve(true);
                 }, function (err: { message: any; }) {
-                    console.log(err);
+                    Logger.info('[' + host + ':' + port + '] Connection failed: ', err);
                     resolve(false);
                 });
         });
@@ -72,7 +73,7 @@ class ServerController {
     }
 
     testConf(aServ: IServer) {
-        mailCtrl.initMail(aServ, true);
+        mailCtrl.testMail(aServ, true);
     }
 }
 
