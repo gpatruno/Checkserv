@@ -9,18 +9,28 @@ const mailCtrl = new MailController();
 const mServer = new Map<string, boolean>();
 const mService = new Map<string, boolean>();
 
-// Initialisation
-const lServer: IServer[] = (config.has("server")) ? config.get("server") : [];
-lServer.forEach((aServer: IServer) => {
-    mServer.set(aServer.host, (aServer.defaultstate !== undefined) ? aServer.defaultstate : true);
-    const lService: IService[] = (aServer.services) ? aServer.services : [];
-    Logger.info('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length);
-    lService.forEach((aService: IService) => {
-        mService.set(aServer.host + aService.port, (aService.defaultstate !== undefined) ? aService.defaultstate : true);
-    });
-});
 
 class ServerController {
+    lServer: IServer[] = [];
+
+    constructor() {
+        const lServerConf: IServer[] = (config.has("servers")) ? config.get("servers") : [];
+        lServerConf.forEach((aServer: IServer) => {
+            mServer.set(aServer.host, (aServer.defaultstate !== undefined && aServer.defaultstate !== null) ? aServer.defaultstate : true);
+            const lService: IService[] = [];
+            ((aServer.services !== undefined && aServer.services !== null) ? aServer.services : []).forEach((aService: IService, index: number) => {
+                if ((aService.name !== null && aService.name !== undefined) && (aService.port !== null && aService.port !== undefined)) {
+                    lService.push(aService);
+                    mService.set(aServer.host + aService.port, (aService.defaultstate !== undefined && aService.defaultstate !== null) ? aService.defaultstate : true);
+                } else {
+                    Logger.info('REJECT SERVICE: Name or port is not defined = ' + aService.name + ':' + aService.port + ' | SERVER: ' + aServer.name);
+                }
+            });
+            aServer.services = lService;
+            Logger.info('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length);
+        });
+        this.lServer = lServerConf;
+    }
 
     async checkServer(aServer: IServer): Promise<void> {
         const servUp: boolean = await this.telnet((aServer.port) ? aServer.port : 22, aServer.host);
@@ -34,7 +44,7 @@ class ServerController {
                 this.checkService(aService, aServer);
             });
         } else {
-            // Serv injoinable et ce n'est pas nouveau
+            // Server injoinable et ce n'est pas nouveau
         }
     }
 
@@ -61,15 +71,13 @@ class ServerController {
     }
 
     serverChange(aServer: IServer, servUp: boolean): void {
-        Logger.info('--->[' + aServer.name + '] WARNING: Server change state: ' + servUp);
         mServer.set(aServer.host, servUp);
         mailCtrl.alertServer(aServer, mServer.get(aServer.host));
     }
 
     serviceChange(aService: IService, aServer: IServer, servUp: boolean): void {
-        Logger.info('--->[' + aServer.host + ':' + aService.port + '] WARNING: Server change state: ' + servUp);
         mService.set(aServer.host + aService.port, servUp);
-        // mailCtrl.initMail(aServ, mServer.get(aServ.host));
+        mailCtrl.alertService(aService, aServer, servUp);
     }
 
     testConf(aServ: IServer) {

@@ -1,13 +1,22 @@
-interface ISender {
-  EMAIL: string;
-  EMAIL_PASSWORD: string;
-  HOST: string;
-  PORT_EMAIL: number;
+// Définition des interfaces
+
+interface IMail {
+  from: string;
+  to: string | string[];
+  subject: string;
+  html: string;
 }
 
 interface IUser {
   name?: string;
   email: string;
+}
+
+interface ISender {
+  EMAIL: string;
+  EMAIL_PASSWORD: string;
+  HOST: string;
+  PORT_EMAIL: number;
 }
 
 interface IServer {
@@ -31,4 +40,4 @@ interface IApp {
   LONG_CRON: boolean
 }
 
-export { IApp, ISender, IUser, IServer, IService };
+export { IApp, ISender, IUser, IServer, IService, IMail };

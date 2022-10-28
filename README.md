@@ -9,6 +9,8 @@
 
 - TCP :hsotname :port
 
+> Be care **CheckServ** test only TCP connection, service listenning port udp will not work.
+
 ## **How to Setup Checkserv**
 
 ### **Windows** & **Linux** & **Mac OS**
@@ -165,7 +167,6 @@ And if you use checkserv with forerver, two other file will be create by forever
 ## **Module use**
 
 - Mail - `nodemailer` // Send Mail
-- Ping - `ping`             // Ping Server
 - TCP - `tcp-port-used`     // Ping Server on custom port
 - Config - `config` // Use config file
 - Cron - `node-cron` // To schedule task
@@ -181,4 +182,3 @@ With Powershell :
 Test-NetConnection -ComputerName <host> -port <port>
 ```
 
-> Be care Powershell test only TCP connection, service listenning port udp will not work with Powershell and with this service

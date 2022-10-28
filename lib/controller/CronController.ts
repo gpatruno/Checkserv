@@ -3,9 +3,8 @@ import * as config from "config";
 import { IServer } from "../Interface";
 import ServerController = require("./ServerController");
 import * as LoggerManager from "../config/Logger";
-const Logger = LoggerManager(__filename);
 
-const lServer: IServer[] = config.get("server");
+const Logger = LoggerManager(__filename);
 const servCtrl = new ServerController();
 
 // ┌────────────── second (optional)
@@ -60,7 +59,7 @@ class CronController {
     }
 
     pulseServer() {
-        lServer.forEach((aServer: IServer) => {
+        servCtrl.lServer.forEach((aServer: IServer) => {
             const method = "telnet";
             switch (method) {
                 case "telnet":

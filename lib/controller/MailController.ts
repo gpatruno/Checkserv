@@ -3,7 +3,7 @@ import fs = require("fs");
 import * as path from "path";
 import * as config from "config";
 import * as LoggerManager from "../config/Logger";
-import { ISender, IServer, IService, IUser } from "../Interface";
+import { IMail, ISender, IServer, IService, IUser } from "../Interface";
 
 const Logger = LoggerManager(__filename);
 const mailConf: ISender = config.get("SENDER");
@@ -25,7 +25,7 @@ class MailController {
 
     async alertServer(server: IServer, state: boolean) {
         const title = (state) ? 'Le serveur est UP' : 'Le serveur est DOWN';
-        const mailOptions = {
+        const mailOptions: IMail = {
             from: mailConf.EMAIL,
             to: this.getUserMail(),
             subject: "[" + server.name + "] " + title + " à " + new Date().toLocaleString(),
@@ -36,7 +36,7 @@ class MailController {
 
     async alertService(service: IService, server: IServer, state: boolean) {
         const title = (state) ? 'Le service ' + service.name + ' est de nouveau UP' : 'Le service ' + service.name + ' est DOWN';
-        const mailOptions = {
+        const mailOptions: IMail = {
             from: mailConf.EMAIL,
             to: this.getUserMail(),
             subject: "[" + service.name + "] " + title + " à " + new Date().toLocaleString(),
@@ -46,7 +46,7 @@ class MailController {
     }
 
     getUserMail(): string[] {
-        const listTO: IUser[] = config.get("user");
+        const listTO: IUser[] = config.get("users");
         let lToSend: string[] = [];
         listTO.forEach((aUser: IUser) => {
             lToSend.push(aUser.email);
@@ -83,10 +83,11 @@ class MailController {
         this.sendMail(mailOptions);
     }
 
-    async sendMail(options: any): Promise<boolean> {
+    async sendMail(options: IMail): Promise<boolean> {
         let result = false;
         try {
-            result = await this.wrapedSendMail(options);
+            Logger.info('SENDMAIL: from[' + options.from + '] subject[' + options.subject + '] to[' + options.to + ']');
+            //result = await this.wrapedSendMail(options);
         } catch (error) {
             Logger.error('ERROR sendMail: ', error);
         }
