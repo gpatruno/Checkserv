@@ -6,8 +6,11 @@
 **Exemple :**
 > Par exemple vous voulez surveiller un serveur **mon-serveur.com** qui héberge une API utilisant le port **3000** et un VPN utilisant le port **1194**. Si l'un des deux services n'est plus joignable le mail sera automatiquement envoyé à un ou plusieurs utilisateurs (selon la configuration). Mais si le serveur n'est plus joignable, alors, CheckServ enverra un mail pour le signaler aux utilisateurs mais le logiciel ne tentera pas de se connecter aux services associé a ce serveur pour éviter d'envoyer des mails inutile.
 
-<!-- **Mail :** -->
+**Mail :**
 
+<img src="demoMail.png" alt="demoMail" width="450"/>
+
+<!-- ![alt text]() -->
 
 ---
 
@@ -61,9 +64,7 @@ forever list
 
 ### **DOCKER**
 
-Vous pouvez utiliser **checkserv** avec Docker. 
-
-*Lien Docker hub : https://hub.docker.com/r/gpatruno/checkserv*
+Vous pouvez utiliser **checkserv** avec Docker. *Lien : [CheckServ Docker Hub](https://hub.docker.com/r/gpatruno/checkserv)*
 
 **1/ Fichier de configuration**
 
@@ -188,6 +189,70 @@ Si vous utilisez CheckServ avec `forever`, deux autres fichiers seront créé à
 - ```checkservout.log``` -  Output forever 
 - ```checkserverror.log``` - Error forever
 
+## **Tester la connexion**
+
+    Il est possible de tester vos serveurs/services sans passer par le logiciel. 
+
+### **Sur Windows**
+
+Avec Powershell grâce à l'outil `Test-NetConnection` : 
+
+```Powershell
+Test-NetConnection -ComputerName <host> -port <port>
+```
+En cas de succès :
+
+```Powershell
+Test-NetConnection -ComputerName domaine-demo.com -port 5432
+
+
+ComputerName            : domaine-demo.com
+RemoteAddress           : 150.123.123.123
+RemotePort              : 5432
+InterfaceAlias          : Wi-Fi
+SourceAddress           : 192.123.123.123
+TcpTestSucceeded        : True
+```
+En cas d'échec :
+```Powershell
+Test-NetConnection -ComputerName domaine-demo.com -port 3000
+
+
+ComputerName            : domaine-demo.com
+RemoteAddress           : 150.123.123.123
+RemotePort              : 3000
+InterfaceAlias          : Wi-Fi
+SourceAddress           : 192.123.123.123
+PingSucceeded           : True
+PingReplyDetails (RTT)  : 32 ms
+TcpTestSucceeded        : False
+```
+
+### **Sur Linux**
+
+Avec Bash grâce à l'outil `telnet` : 
+
+```Bash
+telnet <host> <port>
+```
+
+En cas de succès :
+
+```Bash
+telnet domaine-demo.com 5432
+Trying 150.123.123.123...
+Connected to domaine-demo.com.
+Escape character is '^]'.
+```
+> Utiliser `Ctrl + C` ou `Ctrl + ] + q` pour quitter
+
+En cas d'échec :
+
+```Bash
+telnet domaine-demo.com 3000
+Trying 150.123.123.123...
+telnet: Unable to connect to remote host: Connection timed out
+```
 
 ## **Module utilisé**
 
@@ -196,14 +261,3 @@ Si vous utilisez CheckServ avec `forever`, deux autres fichiers seront créé à
 - Config - `config` // Pour utiliser un fichier de configuration
 - Cron - `node-cron` // Pour programmer les pulsations
 - Logger - `winston` // Pour sortir les logs dans des fichiers
-
-## **Tester la connexion**
-
-### **Sur Windows**
-
-Avec Powershell : 
-
-```Powershell
-Test-NetConnection -ComputerName <host> -port <port>
-```
-
