@@ -1,7 +1,7 @@
 # CheckServ
 
 > **Qu'est ce que CheckServ ?**
-> **CheckServ** est un service permettant de surveiller le bon fonctionnement d'un ou plusieurs serveurs. Si l'un des serveurs n'est plus joignable le logiciel enverra automatiquement un mail aux utilisateurs avec la date/heure et le serveur concerné. <br> CheckServ permet aussi de surveiller des services rattachés à un serveur. Si l'un des services n'est plus joignable par l'extérieur alors le logiciel enverra un mail.
+> **CheckServ** est un service permettant de surveiller le bon fonctionnement d'un ou plusieurs serveurs. Si l'un des serveurs n'est plus joignable, le logiciel enverra automatiquement un mail aux utilisateurs avec la date/heure et le serveur concerné. <br> CheckServ permet aussi de surveiller des services rattachés à un serveur. Si l'un des services n'est plus joignable par l'extérieur, alors le logiciel enverra un mail.
 
 **Exemple :**
 > Par exemple vous voulez surveiller un serveur **mon-serveur.com** qui héberge une API utilisant le port **3000** et un VPN utilisant le port **1194**. Si l'un des deux services n'est plus joignable le mail sera automatiquement envoyé à un ou plusieurs utilisateurs (selon la configuration). Mais si le serveur n'est plus joignable, alors, CheckServ enverra un mail pour le signaler aux utilisateurs mais le logiciel ne tentera pas de se connecter aux services associé a ce serveur pour éviter d'envoyer des mails inutile.
@@ -10,13 +10,11 @@
 
 <img src="demoMail.png" alt="demoMail" width="450"/>
 
-<!-- ![alt text]() -->
-
 ---
 
 ## **Le type de connexion**
 
-- TCP :hsotname :port
+- TCP :hostname :port
 
 > **ATTENTION** CheckServ test seulement les connexions en **TCP**, les services utilisants des ports en **UDP** ne fonctionneront pas avec le logiciel.
 
@@ -32,11 +30,11 @@ Après vous allez devoir installer un module `forever`, de la manière suivante 
 npm i -g forever
 ```
 
-**2/** Coner ce répertoire git et editer le fichier de configuration qui se trouve sous l'arborescence suivante : `Checkserv/config/default.json`
+**2/** Cloner le répertoire git et editer le fichier de configuration qui se trouve sous l'arborescence suivante : `Checkserv/config/default.json`
 
 **3/** Intaller les dépendances, compiler le projet et lancer le :
 
-**Installation des dépencences**
+**Installation des dépendances**
 ```Shell
 npm i
 ```
@@ -161,9 +159,9 @@ servers:                            # Une liste de serveurs
 
 ### **Configuration des services**
 
-Les services sont forcément rattaché à un serveur. Car le logiciel utilisera la même valeur de l'attribut **host** du serveur, seulement l'addressage du **port** changera. 
+Les services sont forcément rattaché à un serveur. Car le logiciel utilisera la même valeur de l'attribut **host** du serveur, seulement l'adressage du **port** changera. 
 
-<table border="1" id="bkmrk-variable-obligatoire" style="border-collapse: collapse; width: 113.086%; height: 205.643px;"><colgroup><col style="width: 15.5779%;"></col><col style="width: 84.4358%;"></col></colgroup><tbody><tr style="height: 29.8785px;"><td class="align-center" style="height: 29.8785px;">Attributs</td><td class="align-center" style="height: 29.8785px;">Description</td></tr><tr style="height: 33.6632px;"><td style="height: 33.6632px;">name</td><td style="height: 33.6632px;">Nom à donner au service. L'attribut doit être obligatoirement renseigné.</td></tr><tr style="height: 33.6632px;"><td style="height: 33.6632px;">port</td><td style="height: 33.6632px;">Le numéro du port à utiliser pour la connexion. L'attribut n'est pas obligé d'être renseigné.</td></tr><tr style="height: 33.6632px;"><td style="height: 33.6632px;">defaultState</td><td style="height: 33.6632px;">L'état par défaut du service. Valeur attendue: true/false. Si la valeur est 'false' le logiciel ne tentera pas de se connecter au service. Par défaut 'true'. L'attribut n'est pas obligé d'être renseigné.</td></tbody></table>
+<table border="1" id="bkmrk-variable-obligatoire" style="border-collapse: collapse; width: 113.086%; height: 205.643px;"><colgroup><col style="width: 15.5779%;"></col><col style="width: 84.4358%;"></col></colgroup><tbody><tr style="height: 29.8785px;"><td class="align-center" style="height: 29.8785px;">Attributs</td><td class="align-center" style="height: 29.8785px;">Description</td></tr><tr style="height: 33.6632px;"><td style="height: 33.6632px;">name</td><td style="height: 33.6632px;">Nom à donner au service. L'attribut doit être obligatoirement renseigné.</td></tr><tr style="height: 33.6632px;"><td style="height: 33.6632px;">port</td><td style="height: 33.6632px;">Le numéro du port à utiliser pour la connexion. L'attribut doit être obligatoirement renseigné.</td></tr><tr style="height: 33.6632px;"><td style="height: 33.6632px;">defaultState</td><td style="height: 33.6632px;">L'état par défaut du service. Valeur attendue: true/false. Si la valeur est 'false' le logiciel ne tentera pas de se connecter au service. Par défaut 'true'. L'attribut n'est pas obligé d'être renseigné.</td></tbody></table>
 
 ```YAML
 servers:                            
@@ -191,7 +189,7 @@ Si vous utilisez CheckServ avec `forever`, deux autres fichiers seront créé à
 
 ## **Tester la connexion**
 
-    Il est possible de tester vos serveurs/services sans passer par le logiciel. 
+    Il est possible de tester vos serveurs/services sans passer par le logiciel mais grâce à des outils tels que telnet, Test-NetConnection. 
 
 ### **Sur Windows**
 
