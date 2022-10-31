@@ -6,9 +6,9 @@
 **Example :**
 > For example you want to monitor a **my-server.com** server that hosts an API using port **3000** and a VPN using port **1194**. If one of the two services is no longer reachable the mail will automatically be sent to one or more users (depending on the configuration). But if the server is not reachable, then CheckServ will send an email to inform the users but the software will not try to connect to the services associated to this server to avoid sending unnecessary emails.
 
-**Mail :**
+**Mail**
 
-<img src="resources/demoMail.png" alt="demoMail" width="450"/>
+<img src="https://raw.githubusercontent.com/gpatruno/Checkserv/main/resources/demoMail.png" alt="demoMail" width="450"/>
 
 ---
 
@@ -106,7 +106,9 @@ Before you start editing the configuration file, you can find an example in the 
 
 To begin editing the `default.yml` file found in the `checkserv/config/default.yml` tree
 
-<table border="1" id="bkmrk-variable-obligatoire" style="border-collapse: collapse; width: 106.914%; height: 172.07px;"><colgroup><col style="width: 16.0718%;"></col><col style="width: 15.9481%;"></col><col style="width: 51.8006%;"></col><col style="width: 16.0718%;"></col></colgroup><tbody><tr style="height: 29.8785px;"><td class="align-center" style="height: 29.8785px;"> Attributes </td><td class="align-center" style="height: 29.8785px;">Mandatory</td><td class="align-center" style="height: 29.8785px;">Description</td><td class="align-center" style="height: 29.8785px;">Value</td></tr><tr style="height: 33.6667px;"><td style="height: 33.6667px;">CLEAR_LOG</td><td class="align-center" style="height: 33.6667px;">Yes</td><td style="height: 33.6667px;">If 'true' Cleans up logs at software startup/restart</td><td style="height: 33.6667px;">true / false</td></tr><tr style="height: 29.8785px;"><td style="height: 29.8785px;">CUSTOM_CRON</td><td class="align-center" style="height: 29.8785px;">No</td><td style="height: 29.8785px;">Allows you to set your own pulse rate for testing servers/services. Waits for a value in CRON format. If the value passed is 'TEST_MAIL' at the start of the application a mail will be sent. </td><td style="height: 29.8785px;">null / '* * * * *' / 'TEST_MAIL'</td></tr><tr style="height: 29.8785px;"><td style="height: 29.8785px;">SHORT_CRON</td><td class="align-center" style="height: 29.8785px;">Yes</td><td style="height: 29.8785px;">Sending pulses every 5 mins</td><td style="height: 29.8785px;">true / false</td></tr><tr style="height: 48.7674px;"><td style="height: 48.7674px;">LONG_CRON</td><td class="align-center" style="height: 48.7674px;">Yes</td><td style="height: 48.7674px;">Sending pulses every 4 hours</td><td style="height: 48.7674px;">true / false</td></tr></tbody></table>
+<table border="1" id="bkmrk-variable-obligatoire" style="border-collapse: collapse; width: 106.914%; height: 172.07px;"><colgroup><col style="width: 16.0718%;"></col><col style="width: 15.9481%;"></col><col style="width: 51.8006%;"></col><col style="width: 16.0718%;"></col></colgroup><tbody><tr style="height: 29.8785px;"><td class="align-center" style="height: 29.8785px;"> Attributes </td><td class="align-center" style="height: 29.8785px;">Mandatory</td><td class="align-center" style="height: 29.8785px;">Description</td><td class="align-center" style="height: 29.8785px;">Value</td></tr><tr style="height: 33.6667px;"><td style="height: 33.6667px;">CLEAR_LOG</td><td class="align-center" style="height: 33.6667px;">Yes</td><td style="height: 33.6667px;">If 'true' Cleans up logs at software startup/restart</td><td style="height: 33.6667px;">true / false</td></tr><tr style="height: 29.8785px;"><td style="height: 29.8785px;">CUSTOM_CRON</td><td class="align-center" style="height: 29.8785px;">No</td><td style="height: 29.8785px;">Allows you to set your own pulse rate for testing servers/services. Waits for a value in CRON format. If the value passed is 'TEST_MAIL' at the start of the application a mail will be sent. </td><td style="height: 29.8785px;">null / '* * * * *' / 'TEST_MAIL'</td></tr><tr style="height: 29.8785px;"><td style="height: 29.8785px;">SHORT_CRON</td><td class="align-center" style="height: 29.8785px;">Yes</td><td style="height: 29.8785px;">Sending pulses every 5 mins</td><td style="height: 29.8785px;">true / false</td></tr><tr style="height: 48.7674px;"><td style="height: 48.7674px;">LONG_CRON</td><td class="align-center" style="height: 48.7674px;">Yes</td><td style="height: 48.7674px;">Sending pulses every 4 hours</td><td style="height: 48.7674px;">true / false</td>
+</tr></tr><tr style="height: 48.7674px;"><td style="height: 48.7674px;">LANGUAGE</td><td class="align-center" style="height: 48.7674px;">No</td><td style="height: 48.7674px;">To set the language to be used in the mail, default to 'FR'</td><td style="height: 48.7674px;">'FR' / 'EN'</td>
+</tr></tbody></table>
 
 > If you want to make your own pulse you can use the following site to try the cron format: https://crontab.guru/
 
@@ -116,6 +118,7 @@ APP:
   CUSTOM_CRON: # Value: null / 'TEST_MAIL' / '(Format cron)' 
   SHORT_CRON: false
   LONG_CRON: false
+  LANGUAGE:  # Value: null / 'FR' / 'EN' 
 ```
 
 ### **SMTP Configuration**
@@ -135,7 +138,7 @@ SENDER:
 All users in the list will be notified as soon as a server/service changes its status. 
 
 ```YAML
-user:                               # a list of users to be notified
+users:                               # a list of users to be notified
 - email: user.viewer@mail.com
 - name: User 2                      # name is optional
   email: user2.viewer@mail.com

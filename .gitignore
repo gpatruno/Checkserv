@@ -1,13 +1,10 @@
 /node_modules
 package-lock.json
 
-#Documentation API 
-apidoc/
-
 #Logger 
 logs/
-abymailout.log
-abymailerror.log
+checkservout.log
+checkserverror.log
 
 # Variable d'environnement
 .env

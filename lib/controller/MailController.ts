@@ -57,7 +57,8 @@ class MailController {
     initTemplate(host: string, port: number, state: boolean, service?: string): string {
         let result = '';
         try {
-            let pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailStateChange.html");
+            const LANGUAGE: string = (config.has("APP.LANGUAGE") && config.get("APP.LANGUAGE") !== undefined && config.get("APP.LANGUAGE") !== null) ? config.get("APP.LANGUAGE") : 'FR';
+            let pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailAlert_" + LANGUAGE + ".html");
             const tmpMailInit = fs.readFileSync(pathToTemplate, {
                 encoding: "utf8",
                 flag: "r",
@@ -66,6 +67,7 @@ class MailController {
             let template: string = tmpMailInit.replace("$$datetime$$", new Date().toLocaleString());
             template = template.replace("$$host$$", host);
             template = template.replace("$$state$$", (state) ? 'UP' : 'DOWN');
+            result = template;
         } catch (error) {
             Logger.error('ERROR initTemplate: ', error);
         }
@@ -87,7 +89,7 @@ class MailController {
         let result = false;
         try {
             Logger.info('SENDMAIL: from[' + options.from + '] subject[' + options.subject + '] to[' + options.to + ']');
-            //result = await this.wrapedSendMail(options);
+            result = await this.wrapedSendMail(options);
         } catch (error) {
             Logger.error('ERROR sendMail: ', error);
         }
@@ -101,12 +103,7 @@ class MailController {
      * @param mailOptions
      * @returns Promise<boolean>
      */
-    async wrapedSendMail(mailOptions: {
-        from: string;
-        to: string;
-        subject: string;
-        html: string;
-    }): Promise<boolean> {
+    async wrapedSendMail(mailOptions: IMail): Promise<boolean> {
         return new Promise((resolve, reject) => {
             transporter.sendMail(mailOptions, function (error: Error, info: { response: string }) {
                 if (error) {

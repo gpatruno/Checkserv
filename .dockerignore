@@ -1,0 +1,17 @@
+/node_modules
+package-lock.json
+
+#Logs
+logs/
+checkservout.log
+checkserverror.log
+
+# Fichier 
+.env
+.gitignore
+.dockerignore
+
+# Dossier et fichier inutile
+/config
+/resources
+README.md

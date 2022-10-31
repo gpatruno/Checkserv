@@ -8,6 +8,7 @@ import CronController = require("./lib/controller/CronController");
 const cronCtrl = new CronController();
 
 import * as config from "config";
+Logger.info('APP CONFIGURATION: ' + (config.has('APP')) ? JSON.stringify(config.get('APP')) : 'No configuration...');
 if (config.has('APP.SHORT_CRON') && config.get('APP.SHORT_CRON')) {
     cronCtrl.shortPulse();
 }

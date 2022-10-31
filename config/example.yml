@@ -1,18 +1,19 @@
 APP:
   CLEAR_LOG: false
-  CUSTOM_CRON: 
+  CUSTOM_CRON: null
   SHORT_CRON: true
   LONG_CRON: false
+  LANGUAGE: 'EN'
 SENDER:
   EMAIL: example@mail.com
   EMAIL_PASSWORD: Password1234
   HOST: smtp.example.com
   PORT_EMAIL: 450
-user:                               # a list of users to be notified
+users:                               # a list of users to be notified
 - email: user.viewer@mail.com
 - name: User 2                      # name is optionnal
   email: user2.viewer@mail.com
-server:                             # A server list
+servers:                             # A server list
 - name: Server Demo
   host: demo.domaine-name.com
   port: 22                          # port is optionnal, default port: 22
@@ -23,7 +24,11 @@ server:                             # A server list
     port: 3000
 - name: Server Perso
   host: perso.checkserv.com
-  defaultstate: false              # The default state is optional (default state: true), the attribute is useful to initialise the application with the state of a defined service, which avoids sending a useless mail as soon as the application is launched
+  services: 
+  - name: OpenVPN
+    port: 1194
+    defaultstate: false             
 - name: Server Web
   host: database.domaine.com
   port: 80
+  defaultstate: false

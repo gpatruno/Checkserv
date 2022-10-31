@@ -37,7 +37,8 @@ interface IApp {
   CLEAR_LOG: boolean,
   CUSTOM_CRON: string,
   SHORT_CRON: boolean,
-  LONG_CRON: boolean
+  LONG_CRON: boolean,
+  LANGUAGE: string
 }
 
 export { IApp, ISender, IUser, IServer, IService, IMail };
