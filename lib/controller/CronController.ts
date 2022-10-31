@@ -3,9 +3,8 @@ import * as config from "config";
 import { IServer } from "../Interface";
 import ServerController = require("./ServerController");
 import * as LoggerManager from "../config/Logger";
-const Logger = LoggerManager(__filename);
 
-const lServer: IServer[] = config.get("server");
+const Logger = LoggerManager(__filename);
 const servCtrl = new ServerController();
 
 // ┌────────────── second (optional)
@@ -50,7 +49,6 @@ class CronController {
                 const testService: IServer = {
                     name: "Test Mail",
                     host: "test.mail.hostname",
-                    method: "MAIL",
                     port: 0
                 }
                 servCtrl.testConf(testService);
@@ -61,17 +59,12 @@ class CronController {
     }
 
     pulseServer() {
-        lServer.forEach((aServ: IServer) => {
-            switch (aServ.method) {
-                case "ping":
-                    servCtrl.pingServer(aServ);
-                    break;
+        servCtrl.lServer.forEach((aServer: IServer) => {
+            const method = "telnet";
+            switch (method) {
                 case "telnet":
-                case "wget":
-                case "http":
-                case "https":
                 default:
-                    servCtrl.telnet(aServ);
+                    servCtrl.checkServer(aServer);
             }
         });
     }
