@@ -1,11 +1,10 @@
 FROM node:16.18.0-slim
 
-# On se place dans le dossier app a la racine
 WORKDIR /app
 
 ADD . /app
 
-RUN npm i && npm run build
+RUN npm i && npm run build && rm -r ./lib && rm server.ts && rm tsconfig.json
 
 VOLUME [/app/logs]
 

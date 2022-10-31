@@ -14,11 +14,11 @@ class ServerController {
     lServer: IServer[] = [];
 
     constructor() {
-        const lServerConf: IServer[] = (config.has("servers")) ? config.get("servers") : [];
+        const lServerConf: IServer[] = (config.has("servers") && config.get("servers") !== undefined && config.get("servers") !== null) ? config.get("servers") : [];
         lServerConf.forEach((aServer: IServer) => {
             mServer.set(aServer.host, (aServer.defaultstate !== undefined && aServer.defaultstate !== null) ? aServer.defaultstate : true);
             const lService: IService[] = [];
-            ((aServer.services !== undefined && aServer.services !== null) ? aServer.services : []).forEach((aService: IService, index: number) => {
+            ((aServer.services !== undefined && aServer.services !== null) ? aServer.services : []).forEach((aService: IService) => {
                 if ((aService.name !== null && aService.name !== undefined) && (aService.port !== null && aService.port !== undefined)) {
                     lService.push(aService);
                     mService.set(aServer.host + aService.port, (aService.defaultstate !== undefined && aService.defaultstate !== null) ? aService.defaultstate : true);

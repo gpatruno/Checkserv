@@ -6,7 +6,12 @@ import * as LoggerManager from "../config/Logger";
 import { IMail, ISender, IServer, IService, IUser } from "../Interface";
 
 const Logger = LoggerManager(__filename);
-const mailConf: ISender = config.get("SENDER");
+const mailConf: ISender = (config.has("SENDER") && config.get("SENDER") !== null && config.get("SENDER") !== undefined) ? config.get("SENDER") : {
+    EMAIL: "example@mail.com",
+    EMAIL_PASSWORD: "Password1234",
+    HOST: "smtp.example.com",
+    PORT_EMAIL: 450
+};
 const transporter = nodemailer.createTransport({
     host: mailConf.HOST,
     port: mailConf.PORT_EMAIL,
@@ -46,7 +51,7 @@ class MailController {
     }
 
     getUserMail(): string[] {
-        const listTO: IUser[] = config.get("users");
+        const listTO: IUser[] = (config.has("users") && config.get("users") !== undefined && config.get("users") !== null) ? config.get("users") : [];
         let lToSend: string[] = [];
         listTO.forEach((aUser: IUser) => {
             lToSend.push(aUser.email);
@@ -55,7 +60,7 @@ class MailController {
     }
 
     initTemplate(host: string, port: number, state: boolean, service?: string): string {
-        let result = '';
+        let result = 'Load template...';
         try {
             const LANGUAGE: string = (config.has("APP.LANGUAGE") && config.get("APP.LANGUAGE") !== undefined && config.get("APP.LANGUAGE") !== null) ? config.get("APP.LANGUAGE") : 'FR';
             let pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailAlert_" + LANGUAGE + ".html");
@@ -75,7 +80,7 @@ class MailController {
     }
 
     testMail(server: IServer, state: boolean): void {
-        const title = 'Hello Worl - Test Mail from CheckServ';
+        const title = '[Hello World] - Test Mail from CheckServ';
         const mailOptions = {
             from: mailConf.EMAIL,
             to: this.getUserMail(),
