@@ -19,3 +19,4 @@ if (config.has('APP.CUSTOM_CRON') && config.get('APP.CUSTOM_CRON') !== undefined
     cronCtrl.customPulse();
 }
 
+cronCtrl.testTopic();

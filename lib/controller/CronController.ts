@@ -1,11 +1,13 @@
 import * as cron from "node-cron";
 import * as config from "config";
 import { IServer } from "../Interface";
+import AlertController = require("./AlertController");
 import ServerController = require("./ServerController");
 import * as LoggerManager from "../config/Logger";
 
 const Logger = LoggerManager(__filename);
 const servCtrl = new ServerController();
+const alertCtrl = new AlertController();
 
 // ┌────────────── second (optional)
 // │ ┌──────────── minute
@@ -67,6 +69,10 @@ class CronController {
                     servCtrl.checkServer(aServer);
             }
         });
+    }
+
+    testTopic() {
+        alertCtrl.testRequest();
     }
 }
 

@@ -17,6 +17,7 @@
     "@types/config": "^3.3.0",
     "@types/node": "^18.11.2",
     "@types/node-cron": "^3.0.4",
+    "@types/node-fetch": "^2.6.2",
     "@types/nodemailer": "^6.4.6",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
@@ -26,6 +27,7 @@
   "dependencies": {
     "config": "^3.3.8",
     "node-cron": "^3.0.2",
+    "node-fetch": "^2.6.6",
     "nodemailer": "^6.8.0",
     "path": "^0.12.7",
     "tcp-port-used": "^1.0.2",
