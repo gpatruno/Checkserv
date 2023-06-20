@@ -70,6 +70,7 @@ class MailController {
             });
 
             let template: string = tmpMailInit.replace("$$datetime$$", new Date().toLocaleString());
+            template = template.replace("$$type$$", 'Serveur');
             template = template.replace("$$host$$", server.host  + ':' + server.port);
             template = template.replace("$$state$$", (state) ? 'UP' : 'DOWN');
             template = template.replace("$$services$$", (server.services) ? server.services.length + '' : '0');
@@ -91,6 +92,7 @@ class MailController {
             });
 
             let template: string = tmpMailInit.replace("$$datetime$$", new Date().toLocaleString());
+            template = template.replace("$$type$$", 'Service');
             template = template.replace("$$host$$", server.host + ':' + service.port);
             template = template.replace("$$state$$", (state) ? 'UP' : 'DOWN');
             template = template.replace("$$services$$", server.services.length + '');

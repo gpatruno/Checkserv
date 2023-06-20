@@ -8,7 +8,7 @@
 
 **Mail**
 
-<img src="https://raw.githubusercontent.com/gpatruno/Checkserv/main/resources/demoMail.png" alt="demoMail" width="450"/>
+<img src="https://raw.githubusercontent.com/gpatruno/Checkserv/main/resources/demoMail_EN.png" alt="template_demo_Mail_EN" width="450"/>
 
 ---
 
