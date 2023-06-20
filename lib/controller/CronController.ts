@@ -23,15 +23,15 @@ class CronController {
     shortPulse() {
         Logger.info('CRON: SHORT ACTIVE');
         cron.schedule("*/5 * * * *", () => {
-            Logger.info('shortPulse: ' + new Date().toLocaleString());
+            // Logger.info('shortPulse: ' + new Date().toLocaleString());
             this.pulseServer();
         }).start;
     }
 
     longPulse() {
         cron.schedule("5 */4 * * *", () => {
-            Logger.info('CRON: LONG ACTIVE');
-            Logger.info('longPulse: ' + new Date().toLocaleString());
+            // Logger.info('CRON: LONG ACTIVE');
+            // Logger.info('longPulse: ' + new Date().toLocaleString());
             this.pulseServer();
         }).start;
     }
@@ -40,7 +40,7 @@ class CronController {
         if (cron.validate(config.get('APP.CUSTOM_CRON'))) {
             Logger.info('CRON: CUSTOM ACTIVE');
             cron.schedule(config.get('APP.CUSTOM_CRON'), () => {
-                Logger.info('customPulse: ' + new Date().toLocaleString());
+                // Logger.info('customPulse: ' + new Date().toLocaleString());
                 this.pulseServer();
             }).start;
         } else {

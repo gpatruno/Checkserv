@@ -34,18 +34,18 @@ class MailController {
             from: mailConf.EMAIL,
             to: this.getUserMail(),
             subject: "[" + server.name + "] " + title + " à " + new Date().toLocaleString(),
-            html: this.initTemplate(server.host, server.port, state)
+            html: this.initTemplateServer(server, state)
         };
         this.sendMail(mailOptions);
     }
 
     async alertService(service: IService, server: IServer, state: boolean) {
-        const title = (state) ? 'Le service ' + service.name + ' est de nouveau UP' : 'Le service ' + service.name + ' est DOWN';
+        const title = (state) ? 'Le service ' + service.name + ' est UP' : 'Le service ' + service.name + ' est DOWN';
         const mailOptions: IMail = {
             from: mailConf.EMAIL,
             to: this.getUserMail(),
             subject: "[" + service.name + "] " + title + " à " + new Date().toLocaleString(),
-            html: this.initTemplate(server.host, service.port, state, service.name)
+            html: this.initTemplateService(server, service, state)
         };
         this.sendMail(mailOptions);
     }
@@ -59,7 +59,7 @@ class MailController {
         return lToSend;
     }
 
-    initTemplate(host: string, port: number, state: boolean, service?: string): string {
+    initTemplateServer(server: IServer, state: boolean): string {
         let result = 'Load template...';
         try {
             const LANGUAGE: string = (config.has("APP.LANGUAGE") && config.get("APP.LANGUAGE") !== undefined && config.get("APP.LANGUAGE") !== null) ? config.get("APP.LANGUAGE") : 'FR';
@@ -70,11 +70,33 @@ class MailController {
             });
 
             let template: string = tmpMailInit.replace("$$datetime$$", new Date().toLocaleString());
-            template = template.replace("$$host$$", host);
+            template = template.replace("$$host$$", server.host  + ':' + server.port);
             template = template.replace("$$state$$", (state) ? 'UP' : 'DOWN');
+            template = template.replace("$$services$$", (server.services) ? server.services.length + '' : '0');
             result = template;
         } catch (error) {
-            Logger.error('ERROR initTemplate: ', error);
+            Logger.error('ERROR initTemplateServer: ', error);
+        }
+        return result;
+    }
+
+    initTemplateService(server: IServer, service: IService, state: boolean): string {
+        let result = 'Load template...';
+        try {
+            const LANGUAGE: string = (config.has("APP.LANGUAGE") && config.get("APP.LANGUAGE") !== undefined && config.get("APP.LANGUAGE") !== null) ? config.get("APP.LANGUAGE") : 'FR';
+            let pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailAlert_" + LANGUAGE + ".html");
+            const tmpMailInit = fs.readFileSync(pathToTemplate, {
+                encoding: "utf8",
+                flag: "r",
+            });
+
+            let template: string = tmpMailInit.replace("$$datetime$$", new Date().toLocaleString());
+            template = template.replace("$$host$$", server.host + ':' + service.port);
+            template = template.replace("$$state$$", (state) ? 'UP' : 'DOWN');
+            template = template.replace("$$services$$", server.services.length + '');
+            result = template;
+        } catch (error) {
+            Logger.error('ERROR initTemplateService: ', error);
         }
         return result;
     }
@@ -85,7 +107,7 @@ class MailController {
             from: mailConf.EMAIL,
             to: this.getUserMail(),
             subject: "[" + server.name + "] " + title + " à " + new Date().toLocaleString(),
-            html: this.initTemplate(server.host, server.port, state, server.name),
+            html: this.initTemplateServer(server, state)
         };
         this.sendMail(mailOptions);
     }

@@ -8,6 +8,7 @@
 
 **Mail :**
 
+Exemple d'un mail qui sera envoyé lors d'un changement d'état d'un service ou d'un serveur.
 <img src="demoMail.png" alt="demoMail" width="450"/>
 
 ---

@@ -64,7 +64,7 @@ class ServerController {
                 .then(function (inUse: string) {
                     resolve(true);
                 }, function (err: { message: any; }) {
-                    Logger.info('[' + host + ':' + port + '] Connection failed: ', err);
+                    Logger.info('[' + host + ':' + port + '] Connection failed: ' + err.message, err);
                     resolve(false);
                 });
         });

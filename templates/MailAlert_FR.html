@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
-xmlns:o="urn:schemas-microsoft-com:office:office">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,54 +8,78 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
     <title>CheckServAlert</title>
 
     <style type="text/css">
-        body
-        {
+        body {
+            padding: 5px;
             max-width: 500px;
-            margin: auto;
         }
-        header
-        {
-            margin-top: 10px;
+
+        header {
+            margin-top: 5px;
             display: flex;
             justify-content: space-around;
-            border-bottom: 1px solid rgb(97, 94, 94);
-            border-top: 1px solid rgb(97, 94, 94);
+            background-color: black;
+            border-radius: 5px;
+            color: aliceblue;
         }
-        img
-        {
+
+        img {
             width: 50px;
             height: 50px;
             margin: auto 0px auto 0px;
         }
-        h2
-        {
-            color: rgb(26, 26, 109);
+
+        .content {
+            text-align: left;
+        }
+
+        .text {
+            background-color: rgb(142, 145, 150);
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0 5px 0;
+            display: flex;
+            justify-content: space-around;
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="https://site.wireless-assist.ovh/assets/IconeNavBar96x96.png">
-        <h2>Check Serv Alert</h2>
+        <h2>CheckServ Alerte</h2>
     </header>
-    <div style="text-align: left;">
-        <h3>Changement d'état du serveur</h3>
-        <p>
-            Bonjour, <br/>
-            <br/>
-            Si vous recevez ce mail c'est que l'un de vos serveur a changé d'état.<br/>
-        </p>
-        <p>
-            le serveur concerné : <strong>$$host$$</strong><br/>
-            Date & Heure du changement d'état : <strong>$$datetime$$</strong><br/>
-            Etat du serveur : <strong>$$state$$</strong>
-        </p>
-        <p>
-            Pour votre information ce mail est un envoie automatique vous ne pourrez pas y répondre.<br/>
-            <br/>
-            Cordialement,<br/>
-            CheckServ
-        </p>
+
+    <div class="content">
+        <div>
+            <h3>Changement d'état d'un $$type$$</h3> 
+        </div>
+        <div>
+            <p>
+                Bonjour, <br/>
+                <br/>
+                Si vous recevez ce mail, c'est qu'un service ou qu'un serveur a changé d'état.<br/>
+            </p>
+        </div>
+        <div class="text">
+            <p>
+                Serveur concerné: <strong>$$host$$</strong><br/> 
+                Date du changement d'état: <strong>$$datetime$$</strong><br/>
+                Etat du serveur: <strong>$$state$$</strong><br/>
+                Nombre de services: <strong>$$services$$</strong>
+            </p>
+        </div>
+        <div>
+            <p style="font-style: italic;">
+                Pour votre information, ce mail est un envoi automatique, vous ne pourrez pas y répondre.<br/>
+            </p>
+        </div>
     </div>
+
+    <footer>
+        <div>
+            <p>
+                Cordialement. <br/>
+                <strong>CheckServ Service</strong>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
