@@ -16,7 +16,10 @@ class ServerController {
     constructor() {
         const lServerConf: IServer[] = (config.has("servers") && config.get("servers") !== undefined && config.get("servers") !== null) ? config.get("servers") : [];
         lServerConf.forEach((aServer: IServer) => {
-            mServer.set(aServer.host, (aServer.defaultstate !== undefined && aServer.defaultstate !== null) ? aServer.defaultstate : true);
+            aServer.defaultstate = (aServer.defaultstate !== undefined && aServer.defaultstate !== null) ? aServer.defaultstate : true;
+            aServer.port = (aServer.port) ? aServer.port : 22, aServer.host;
+            mServer.set(aServer.host, aServer.defaultstate);
+            
             const lService: IService[] = [];
             ((aServer.services !== undefined && aServer.services !== null) ? aServer.services : []).forEach((aService: IService) => {
                 if ((aService.name !== null && aService.name !== undefined) && (aService.port !== null && aService.port !== undefined)) {
@@ -27,15 +30,15 @@ class ServerController {
                 }
             });
             aServer.services = lService;
-            Logger.info('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length + ' - STATE: ' + aServer.defaultstate);
+            Logger.info('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length + ' - STATE: ' + ((aServer.defaultstate) ? 'UP' : 'DOWN'));
         });
         this.lServer = lServerConf;
     }
 
     async checkServer(aServer: IServer): Promise<void> {
-        const servUp: boolean = await this.telnet((aServer.port) ? aServer.port : 22, aServer.host);
-        Logger.info('checkServer: ' + aServer.host + ' ' + servUp);
+        const servUp: boolean = await this.telnet(aServer.port, aServer.host);
         if ((mServer.get(aServer.host) !== servUp)) {
+            Logger.info('serverChange: ' + aServer.name + ' --> ' + servUp);
             this.serverChange(aServer, servUp);
         } else if (servUp) {
             // On check les services
@@ -50,8 +53,8 @@ class ServerController {
 
     async checkService(aService: IService, aServer: IServer): Promise<void> {
         const servUp: boolean = await this.telnet(aService.port, aServer.host);
-        Logger.info('checkService: ' + aServer.host + ':' + aService.port + ' ' + servUp);
         if ((mService.get(aServer.host + aService.port) !== servUp)) {
+            Logger.info('serviceChange: ' + aService.name + ' --> ' + servUp);
             this.serviceChange(aService, aServer, servUp);
         } else {
             // Service injoinable et ce n'est pas nouveau
