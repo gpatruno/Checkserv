@@ -27,7 +27,7 @@ class ServerController {
                 }
             });
             aServer.services = lService;
-            Logger.info('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length);
+            Logger.info('INIT SERVER: ' + aServer.host + ' - SERVICES: ' + lService.length + ' - STATE: ' + aServer.defaultstate);
         });
         this.lServer = lServerConf;
     }
