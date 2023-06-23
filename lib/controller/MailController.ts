@@ -147,4 +147,4 @@ class MailController {
     }
 }
 
-export = MailController;
+export { MailController };
