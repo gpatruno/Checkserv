@@ -11,10 +11,10 @@ checkserverror.log
 .env
 .gitignore
 .dockerignore
-
-# Dossier et fichier inutile
-/config
-/resources
 README.md
 Dockerfile
-LICENSE
+
+# Dossier
+/config/forever.json
+/resources
+/dist

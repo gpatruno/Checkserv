@@ -27,7 +27,6 @@ class ServerController {
             
             const lService: IService[] = ((servToUse.services !== undefined && servToUse.services !== null) ? servToUse.services : []);
             lService.forEach((aService: IService) => {
-                console.log(aService);
                 if ((aService.name !== null && aService.name !== undefined) && (aService.port !== undefined && aService.port !== null)) {
                     serviceToUse.push(aService);
                     mService.set(servToUse.host + aService.port, (aService.defaultstate !== undefined && aService.defaultstate !== null) ? aService.defaultstate : true);
