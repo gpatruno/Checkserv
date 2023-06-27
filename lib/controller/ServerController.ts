@@ -19,24 +19,26 @@ class ServerController {
         const lServerConf: IServer[] = (config.has("servers") && config.get("servers") !== undefined && config.get("servers") !== null) ? config.get("servers") : [];
         lServerConf.forEach((aServerConf: IServer) => {
             let servToUse: IServer = Object.assign({}, aServerConf);
+            let serviceToUse: IService[] = [];
+
             servToUse.defaultstate = (servToUse.defaultstate !== undefined && servToUse.defaultstate !== null) ? servToUse.defaultstate : true;
             servToUse.port = (servToUse.port) ? servToUse.port : 22, servToUse.host;
             mServer.set(servToUse.host, servToUse.defaultstate);
             
             const lService: IService[] = ((servToUse.services !== undefined && servToUse.services !== null) ? servToUse.services : []);
             lService.forEach((aService: IService) => {
-                Logger.info('Name or port is not defined = ' + aService.port);
+                console.log(aService);
                 if ((aService.name !== null && aService.name !== undefined) && (aService.port !== undefined && aService.port !== null)) {
-                    lService.push(aService);
+                    serviceToUse.push(aService);
                     mService.set(servToUse.host + aService.port, (aService.defaultstate !== undefined && aService.defaultstate !== null) ? aService.defaultstate : true);
                 } else {
                     Logger.info('REJECT SERVICE: Name or port is not defined = ' + aService.name + ':' + aService.port + ' | SERVER: ' + servToUse.name);
                 }
             });
-            servToUse.services = lService;
+            servToUse.services = serviceToUse;
 
             lServerToUse.push(servToUse);
-            Logger.info('INIT SERVER: ' + servToUse.host + ' - SERVICES: ' + lService.length + ' - STATE: ' + ((servToUse.defaultstate) ? 'UP' : 'DOWN'));
+            Logger.info('INIT SERVER: ' + servToUse.host + ' - SERVICES: ' + serviceToUse.length + ' - STATE: ' + ((servToUse.defaultstate) ? 'UP' : 'DOWN'));
         });
 
         this.lServer = lServerToUse;
