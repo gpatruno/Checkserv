@@ -1,5 +1,5 @@
 
-stepssetps:
+steps:
   - docker-build:
     image: woodpeckerci/plugin-docker-buildx
     settings:
