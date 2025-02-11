@@ -1,15 +1,16 @@
+when:
+    branch: deploy
+    event: push
 
 steps:
+
   - name: docker-build
-    image: woodpeckerci/plugin-docker-buildx
+    image: plugins/docker
     settings:
-      repo: checkserv
+      repo: gpatruno/checkserv
       dockerfile: Dockerfile
-      registry: codeberg.org
+      registry: docker.io
       tag: next
       dry-run: true
       output: type=oci,dest=${CI_REPO_OWNER}-test.tar
 
-when:
-    branch: deploy
-    event: push
