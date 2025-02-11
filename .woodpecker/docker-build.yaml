@@ -5,12 +5,12 @@ when:
 steps:
 
   - name: docker-build
-    image: plugins/docker
+    image: woodpeckerci/plugin-docker-buildx
     settings:
       repo: gpatruno/checkserv
       dockerfile: Dockerfile
       registry: docker.io
       tag: next
       dry-run: true
-      output: type=oci,dest=${CI_REPO_OWNER}-test1.tar
+      output: type=oci,dest=${CI_REPO_OWNER}-test.tar
 
