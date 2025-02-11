@@ -10,7 +10,7 @@ steps:
       repo: gpatruno/checkserv
       dockerfile: Dockerfile
       registry: docker.io
-      tag: next
+      tag: test
       dry-run: true
       output: type=oci,dest=${CI_REPO_OWNER}-test.tar
 
