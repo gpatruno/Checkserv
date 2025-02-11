@@ -2,15 +2,25 @@ when:
   - event: push
     branch: deploy
 
+variables:
+  - file Dockerfile
+  - repo gpatruno/${CI_REPO_OWNER}/hello
+  
 steps:
+
   - name: build
-    image: debian
-    commands:
-      - echo "This is the build step"
-      - echo "binary-data-123" > executable
-  - name: a-test-step
     image: node:22
     commands:
       - echo "Building ..."
       - npm i
       - npm run build --if-present
+      
+  - name: Docker-build
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      dockerfile: file
+      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
+      dry_run: true
+      repo: repo
+      tags: latest
+
