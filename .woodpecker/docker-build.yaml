@@ -3,22 +3,14 @@ when:
     event: push
 
 steps:
-  - name: build-and-push
-    image: docker:latest
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    commands:
-      - docker build -t gpatruno/checkserv:next .
-      # - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-      # - docker push gpatruno/checkserv:next
-      
-  # - name: docker-build
-  #   image: plugins/docker
-  #   settings:
-  #     repo: gpatruno/checkserv
-  #     dockerfile: Dockerfile
-  #     registry: docker.io
-  #     tag: next
-  #     dry-run: true
-  #     output: type=oci,dest=${CI_REPO_OWNER}-test.tar
+
+  - name: docker-build
+    image: plugins/docker
+    settings:
+      repo: gpatruno/checkserv
+      dockerfile: Dockerfile
+      registry: docker.io
+      tag: next
+      dry-run: true
+      output: type=oci,dest=${CI_REPO_OWNER}-test.tar
 
