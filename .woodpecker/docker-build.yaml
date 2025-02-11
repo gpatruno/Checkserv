@@ -1,6 +1,6 @@
 
 steps:
-  - docker-build:
+  - name: docker-build
     image: woodpeckerci/plugin-docker-buildx
     settings:
       repo: checkserv
