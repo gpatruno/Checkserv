@@ -1,6 +1,5 @@
 when:
-  - event: push
-    branch: deploy
+  - event: pull-request
 
 steps:
   - name: review
