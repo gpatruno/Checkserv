@@ -1,11 +1,7 @@
 when:
   - event: push
     branch: deploy
-
-variables:
-  - file Dockerfile
-  - repo gpatruno/${CI_REPO_OWNER}/hello
-  
+    
 steps:
 
   - name: build
@@ -15,12 +11,3 @@ steps:
       - npm i
       - npm run build --if-present
       
-  - name: Docker-build
-    image: woodpeckerci/plugin-docker-buildx
-    settings:
-      dockerfile: file
-      platforms: linux/arm/v7,linux/arm64/v8,linux/amd64,linux/ppc64le
-      dry_run: true
-      repo: repo
-      tags: latest
-
