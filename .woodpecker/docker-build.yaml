@@ -12,5 +12,5 @@ steps:
       registry: docker.io
       tag: next
       dry-run: true
-      output: type=oci,dest=${CI_REPO_OWNER}-test.tar
+      output: type=oci,dest=${CI_REPO_OWNER}-test1.tar
 
