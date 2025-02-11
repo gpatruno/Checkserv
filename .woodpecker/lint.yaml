@@ -1,8 +1,9 @@
 when:
   - event: push
     branch: deploy
-      
- review:
+
+steps:
+  - name: review
     image: woodpeckerci/plugin-reviewdog-eslint
     settings:
       token:
