@@ -7,4 +7,4 @@ steps:
     image: woodpeckerci/plugin-reviewdog-eslint
     settings:
       token:
-        from_secret: botuser_token
+        from_secret: WOODPECKER
