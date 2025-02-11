@@ -1,0 +1,13 @@
+docker-build:
+  image: woodpeckerci/plugin-docker-buildx
+  settings:
+    repo: checkserv
+    dockerfile: Dockerfile
+    registry: codeberg.org
+    tag: next
+    dry-run: true
+    output: type=oci,dest=${CI_REPO_OWNER}-hello.tar
+
+when:
+    branch: deploy
+    event: push
