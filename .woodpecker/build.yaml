@@ -9,7 +9,7 @@ steps:
     commands:
       - echo "🔍 Extracting version from package.json..."
       - export APP_VERSION=(node -p -e "require('./package.json').version")
-      - echo "Version extracted: $APP_VERSION"
+      - echo $APP_VERSION
       - echo ${APP_VERSION}
       - echo "APP_VERSION=$APP_VERSION" >> /woodpecker/env
 
