@@ -7,8 +7,6 @@ steps:
     image: docker:24.0  # Utilise la dernière version stable de Docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock  # Nécessaire pour interagir avec Docker
-    settings:
-      registry: docker.io
     commands:
       - echo "🛠 Building Docker image..."
       - docker build -t gpatruno/checkserv:next .
