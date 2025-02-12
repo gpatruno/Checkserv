@@ -134,7 +134,7 @@ class MailController {
      */
     async wrapedSendMail(mailOptions: IMail): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            transporter.sendMail(mailOptions, function (error: Error, info: { response: string }) {
+            transporter.sendMail(mailOptions, (error: Error, info: { response: string }) =>  {
                 if (error) {
                     Logger.error('ERROR wrapedSendMail: ', error);
                     resolve(false);

@@ -4,6 +4,7 @@
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,   // support typesystem compatibility
       "resolveJsonModule": true,              // json imports
+      "strictNullChecks": true,
       "pretty": true,
       "sourceMap": true,
       "allowJs": true,

@@ -22,7 +22,7 @@ class ServerController {
             const serviceToUse: IService[] = [];
 
             servToUse.defaultstate = (servToUse.defaultstate !== undefined && servToUse.defaultstate !== null) ? servToUse.defaultstate : true;
-            servToUse.port = (servToUse.port) ? servToUse.port : 22, servToUse.host;
+            servToUse.port = (servToUse.port) ? servToUse.port : 22
             mServer.set(servToUse.host, servToUse.defaultstate);
 
             const lService: IService[] = ((servToUse.services !== undefined && servToUse.services !== null) ? servToUse.services : []);
@@ -72,9 +72,9 @@ class ServerController {
     async telnet(port: number, host: string): Promise<boolean> {
         return await new Promise((resolve, reject) => {
             tcpPortUsed.check(port, host)
-                .then(function (inUse: string) {
+                .then((inUse: string) => {
                     resolve(true);
-                }, function (err: { message: any; }) {
+                }, (err: { message: any; }) =>  {
                     Logger.info('[' + host + ':' + port + '] Connection failed: ' + err.message, err);
                     resolve(false);
                 });

@@ -4,6 +4,11 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "no-console": [true, "warning"],
+        "no-unused-expression": {
+            "severity": "warning"
+          }
+    },
     "rulesDirectory": []
 }
