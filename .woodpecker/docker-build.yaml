@@ -3,9 +3,8 @@ when:
     event: push
 
 depends_on:
-  - node-build
-  - lint
-  
+  - build
+
 runs_on: [ success ]
 
 variables:
@@ -16,7 +15,7 @@ variables:
        from_secret: DOCKER_PASSWORD
 
 steps:
-  - name: docker-build-and-push
+  - name: docker-build
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
