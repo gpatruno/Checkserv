@@ -2,10 +2,10 @@ when:
     branch: deploy
     event: push
 
-depends_on:
-  - build
+# depends_on:
+#   - build
 
-runs_on: [ success ]
+# runs_on: [ success ]
 
 variables:
    - &REPO_NAME ${CI_REPO_NAME,}
