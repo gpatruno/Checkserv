@@ -5,8 +5,12 @@ import config = require("config");
 
 if (config.has('APP.CLEAR_LOG') && config.get('APP.CLEAR_LOG') === true) {
     try {
-        fs.truncate('./logs/default.log', 0, function () { console.log('Default log clear !') });
-        fs.truncate('./logs/error.log', 0, function () { console.log('Error log clear !') });
+        fs.truncate('./logs/default.log', 0, (err) => {
+            if (err) throw err;
+          });
+        fs.truncate('./logs/error.log', 0, (err) => {
+            if (err) throw err;
+          });
     } catch (error) {
         console.error('Something goes wrong for clear Log : ', error);
     }
@@ -16,7 +20,7 @@ if (config.has('APP.CLEAR_LOG') && config.get('APP.CLEAR_LOG') === true) {
  * Output Info Logger
  */
 const logFormat = format.combine(
-    //format.colorize(),
+    // format.colorize(),
     format.timestamp({ format: 'DD-MM-YYYY HH:mm:ss' }),
     format.align(),
     format.printf(info => `${info.timestamp} ${info.level} ${info.component}: ${info.message}`)

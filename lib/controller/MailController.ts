@@ -52,7 +52,7 @@ class MailController {
 
     getUserMail(): string[] {
         const listTO: IUser[] = (config.has("users") && config.get("users") !== undefined && config.get("users") !== null) ? config.get("users") : [];
-        let lToSend: string[] = [];
+        const lToSend: string[] = [];
         listTO.forEach((aUser: IUser) => {
             lToSend.push(aUser.email);
         });
@@ -63,7 +63,7 @@ class MailController {
         let result = 'Load template...';
         try {
             const LANGUAGE: string = (config.has("APP.LANGUAGE") && config.get("APP.LANGUAGE") !== undefined && config.get("APP.LANGUAGE") !== null) ? config.get("APP.LANGUAGE") : 'FR';
-            let pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailAlert_" + LANGUAGE + ".html");
+            const pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailAlert_" + LANGUAGE + ".html");
             const tmpMailInit = fs.readFileSync(pathToTemplate, {
                 encoding: "utf8",
                 flag: "r",
@@ -85,7 +85,7 @@ class MailController {
         let result = 'Load template...';
         try {
             const LANGUAGE: string = (config.has("APP.LANGUAGE") && config.get("APP.LANGUAGE") !== undefined && config.get("APP.LANGUAGE") !== null) ? config.get("APP.LANGUAGE") : 'FR';
-            let pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailAlert_" + LANGUAGE + ".html");
+            const pathToTemplate = path.resolve("./") + path.join("/", "templates", "MailAlert_" + LANGUAGE + ".html");
             const tmpMailInit = fs.readFileSync(pathToTemplate, {
                 encoding: "utf8",
                 flag: "r",

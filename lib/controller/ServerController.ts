@@ -18,13 +18,13 @@ class ServerController {
 
         const lServerConf: IServer[] = (config.has("servers") && config.get("servers") !== undefined && config.get("servers") !== null) ? config.get("servers") : [];
         lServerConf.forEach((aServerConf: IServer) => {
-            let servToUse: IServer = Object.assign({}, aServerConf);
-            let serviceToUse: IService[] = [];
+            const servToUse: IServer = Object.assign({}, aServerConf);
+            const serviceToUse: IService[] = [];
 
             servToUse.defaultstate = (servToUse.defaultstate !== undefined && servToUse.defaultstate !== null) ? servToUse.defaultstate : true;
             servToUse.port = (servToUse.port) ? servToUse.port : 22, servToUse.host;
             mServer.set(servToUse.host, servToUse.defaultstate);
-            
+
             const lService: IService[] = ((servToUse.services !== undefined && servToUse.services !== null) ? servToUse.services : []);
             lService.forEach((aService: IService) => {
                 if ((aService.name !== null && aService.name !== undefined) && (aService.port !== undefined && aService.port !== null)) {

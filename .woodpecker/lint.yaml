@@ -1,8 +1,0 @@
-when:
-  - event: pull-request
-
-steps:
-  - name: review
-    image: woodpeckerci/plugin-reviewdog-eslint
-    settings:
-      config: ./tsconfig.json

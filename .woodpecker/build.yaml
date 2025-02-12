@@ -2,6 +2,18 @@ when:
   - event: push
     
 steps:
+  - name: security-audit
+    image: node:22
+    commands:
+      - echo "🔒 Running security audit..."
+      - npm audit --production
+
+  - name: lint
+    image: node:22
+    commands:
+      - echo "🔍 Running lint..."
+      - npm run lint
+
   - name: node-build
     image: node:22
     commands:

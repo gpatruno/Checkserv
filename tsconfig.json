@@ -9,7 +9,7 @@
       "allowJs": true,
       "target": "ES6",
       "outDir": "./dist",
-      "baseUrl": "./lib",
+      "baseUrl": "/",
       "paths": {
         "*": [
           "node_modules/*"
@@ -17,5 +17,5 @@
       }
     },
     "include": ["lib/**/*.ts", "server.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist/", "logs"]
   }
