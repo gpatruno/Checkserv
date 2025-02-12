@@ -3,14 +3,17 @@ when:
     event: push
 
 steps:
-
-  - name: docker-build
-    image: woodpeckerci/plugin-docker-buildx
+  - name: docker-build-and-push
+    image: docker:24.0  # Utilise la dernière version stable de Docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Nécessaire pour interagir avec Docker
     settings:
-      repo: gpatruno/checkserv
-      dockerfile: Dockerfile
       registry: docker.io
-      tag: test
-      dry-run: true
-      output: type=oci,dest=${CI_REPO_OWNER}-test.tar
+    commands:
+      - echo "🛠 Building Docker image..."
+      - docker build -t gpatruno/checkserv:next .
+      - echo "🔑 Logging in to Docker Hub..."
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "📤 Pushing Docker image to Docker Hub..."
+      - docker push gpatruno/checkserv:next
 
