@@ -6,6 +6,7 @@ steps:
     image: node:22
     commands:
       - echo "🔒 Running security audit..."
+      - npm i
       - npm audit --production
 
   - name: lint
