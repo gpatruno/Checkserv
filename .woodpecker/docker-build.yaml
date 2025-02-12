@@ -2,6 +2,19 @@ when:
     branch: deploy
     event: push
 
+depends_on:
+  - node-build
+  - lint
+  
+runs_on: [ success ]
+
+variables:
+   - &REPO_NAME ${CI_REPO_NAME,}
+   - &DOCKER_USERNAME
+       from_secret: DOCKER_USERNAME
+   - &DOCKER_PASSWORD
+       from_secret: DOCKER_PASSWORD
+
 steps:
   - name: docker-build-and-push
     image: docker
@@ -11,7 +24,7 @@ steps:
       - echo "🛠 Building Docker image..."
       - docker build -t ${CI_REPO_OWNER}/${CI_REPO_NAME,}:${CI_COMMIT_BRANCH} .
       - echo "🔑 Logging in to Docker Hub..."
-      - echo ${CI_REPO_NAME}
-      - docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo *REPO_NAME
+      - cat *DOCKER_PASSWORD | docker login -u *DOCKER_USERNAME --password-stdin
       - echo "📤 Pushing Docker image to Docker Hub..."
-      - echo "docker push " ${CI_REPO_OWNER}/${CI_REPO_NAME,}:${CI_COMMIT_BRANCH}
+      - echo "docker push " ${CI_REPO_OWNER}/*REPO_NAME:${CI_COMMIT_BRANCH}
