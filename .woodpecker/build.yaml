@@ -1,8 +1,19 @@
 when:
   - event: push
-    
+
+
 steps:
-  - name: security-audit
+
+  - name: get-version
+    image: node:22
+    commands:
+      - echo "🔍 Extracting version from package.json..."
+      - export APP_VERSION=(node -p -e "require('./package.json').version")
+      - echo "Version extracted: $APP_VERSION"
+      - echo ${APP_VERSION}
+      - echo "APP_VERSION=$APP_VERSION" >> /woodpecker/env
+
+  - name: audit
     image: node:22
     commands:
       - echo "🔒 Running security audit..."
@@ -20,7 +31,6 @@ steps:
     image: node:22
     commands:
       - echo "🛠 Building Node..."
-      - npm i
       - npm run build --if-present
       
   - name: docker-build
@@ -29,5 +39,5 @@ steps:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - echo "🛠 Building Docker image..."
-      - docker build -t ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH} .
-      
+      - docker build -t ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH}-$APP_VERSION .
+    
