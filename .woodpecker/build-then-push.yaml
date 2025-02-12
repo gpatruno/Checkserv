@@ -1,0 +1,37 @@
+when:
+    branch: main
+    event: push
+
+# depends_on:
+#   - build
+
+# runs_on: [ success ]
+
+steps:
+  - name: node-build
+    image: node:22
+    commands:
+      - echo "Building ..."
+      - npm i
+      - npm run build --if-present
+      
+  - name: docker-build
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      DOCKER_USERNAME:
+        from_secret: DOCKER_USERNAME
+      DOCKER_PASSWORD:
+        from_secret: DOCKER_PASSWORD
+    commands:
+      - echo "🛠 Building Docker image..."
+      - docker build -t ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH} .
+      - echo "🔑 Logging in to Docker Hub..."
+      - echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo "🛠 Tag Image"
+      - docker tag ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH} ${CI_REPO_OWNER}/${CI_REPO_NAME,}:${CI_COMMIT_BRANCH}
+      - docker tag ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH} ${CI_REPO_OWNER}/${CI_REPO_NAME,}:latest
+      - echo "📤 Pushing Docker image to Docker Hub..."
+      - docker push ${CI_REPO_OWNER}/${CI_REPO_NAME,}:${CI_COMMIT_BRANCH}
+      - docker push ${CI_REPO_OWNER}/${CI_REPO_NAME,}:latest
