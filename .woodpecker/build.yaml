@@ -3,7 +3,6 @@ when:
 
 variables:
   - &node_image 'node:22'
-  - &app_version $(node -p -e "require('./package.json').version")
 
 steps:
 
@@ -13,8 +12,7 @@ steps:
       - echo "🔍 Extracting version from package.json..."
       - APP_VERSION=$(node -p -e "require('./package.json').version")
       - echo $APP_VERSION
-      - echo *app_version
-      - echo "APP_VERSION=$APP_VERSION" >> /woodpecker/env
+      - echo "APP_VERSION=$APP_VERSION" >> envvars
 
   - name: audit
     image: *node_image
