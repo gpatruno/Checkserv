@@ -44,7 +44,8 @@ class ServerController {
     }
 
     async checkServer(aServer: IServer): Promise<void> {
-        const servUp: boolean = await this.telnet(aServer.port, aServer.host);
+        const port: number = (aServer.port) ? aServer.port : 80;
+        const servUp: boolean = await this.telnet(port, aServer.host);
         if ((mServer.get(aServer.host) !== servUp)) {
             Logger.info('serverChange: ' + aServer.name + ' --> ' + servUp);
             this.serverChange(aServer, servUp);
@@ -83,7 +84,7 @@ class ServerController {
 
     serverChange(aServer: IServer, servUp: boolean): void {
         mServer.set(aServer.host, servUp);
-        mailCtrl.alertServer(aServer, mServer.get(aServer.host));
+        mailCtrl.alertServer(aServer, !!mServer.get(aServer.host));
     }
 
     serviceChange(aService: IService, aServer: IServer, servUp: boolean): void {

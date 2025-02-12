@@ -24,7 +24,7 @@ interface IServer {
   host: string;
   port?: number;
   defaultstate?: boolean,
-  services?: IService[]
+  services: IService[]
 }
 
 interface IService {
