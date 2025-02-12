@@ -1,0 +1,19 @@
+when:
+  - event: push
+    
+steps:
+  - name: node-build
+    image: node:22
+    commands:
+      - echo "🛠 Building Node..."
+      - npm i
+      - npm run build --if-present
+      
+  - name: docker-build
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - echo "🛠 Building Docker image..."
+      - docker build -t ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH} .
+      
