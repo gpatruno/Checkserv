@@ -4,14 +4,14 @@ when:
 
 steps:
   - name: docker-build-and-push
-    image: docker:24.0  # Utilise la dernière version stable de Docker
+    image: docker
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock  # Nécessaire pour interagir avec Docker
+      - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - echo "🛠 Building Docker image..."
-      - docker build -t gpatruno/checkserv:next .
+      - docker build -t ${CI_REPO_OWNER}/${CI_REPO_NAME,}:${CI_COMMIT_BRANCH} .
       - echo "🔑 Logging in to Docker Hub..."
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - echo ${CI_REPO_NAME}
+      - docker login -u "$DOCKER_USERNAME" --password-stdin
       - echo "📤 Pushing Docker image to Docker Hub..."
-      - docker push gpatruno/checkserv:next
-
+      - echo "docker push " ${CI_REPO_OWNER}/${CI_REPO_NAME,}:${CI_COMMIT_BRANCH}
