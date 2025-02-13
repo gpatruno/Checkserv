@@ -29,11 +29,7 @@ class CronController {
     }
 
     longPulse() {
-        cron.schedule("5 */4 * * *", () => {
-            // Logger.info('CRON: LONG ACTIVE');
-            // Logger.info('longPulse: ' + new Date().toLocaleString());
-            this.pulseServer();
-        }).start;
+        cron.schedule("5 */4 * * *", () => this.pulseServer()).start;
     }
 
     customPulse() {
@@ -49,7 +45,8 @@ class CronController {
                 const testService: IServer = {
                     name: "Test Mail",
                     host: "test.mail.hostname",
-                    port: 0
+                    port: 0,
+                    services: []
                 }
                 servCtrl.testConf(testService);
             } else {

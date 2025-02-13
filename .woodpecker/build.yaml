@@ -1,0 +1,45 @@
+when:
+  - event: push
+
+variables:
+  - &node_image 'node:22'
+
+steps:
+
+  - name: get-version
+    image: *node_image
+    commands:
+      - echo "🔍 Extracting version from package.json..."
+      - APP_VERSION=$(node -p -e "require('./package.json').version")
+      - echo $APP_VERSION
+      - echo "APP_VERSION=$APP_VERSION" >> envvars
+
+  - name: audit
+    image: *node_image
+    commands:
+      - echo "🔒 Running security audit..."
+      - npm i
+      - npm audit --production
+
+  - name: lint
+    image: *node_image
+    commands:
+      - echo "🔍 Running lint..."
+      - npm run lint
+    failure: ignore
+
+  - name: node-build
+    image: *node_image
+    commands:
+      - echo "🛠 Building Node..."
+      - npm run build --if-present
+      
+  - name: docker-build
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - echo "🛠 Building Docker image..."
+      - source envvars
+      - docker build -t ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH}-$APP_VERSION .
+    

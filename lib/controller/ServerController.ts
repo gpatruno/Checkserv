@@ -18,13 +18,13 @@ class ServerController {
 
         const lServerConf: IServer[] = (config.has("servers") && config.get("servers") !== undefined && config.get("servers") !== null) ? config.get("servers") : [];
         lServerConf.forEach((aServerConf: IServer) => {
-            let servToUse: IServer = Object.assign({}, aServerConf);
-            let serviceToUse: IService[] = [];
+            const servToUse: IServer = Object.assign({}, aServerConf);
+            const serviceToUse: IService[] = [];
 
             servToUse.defaultstate = (servToUse.defaultstate !== undefined && servToUse.defaultstate !== null) ? servToUse.defaultstate : true;
-            servToUse.port = (servToUse.port) ? servToUse.port : 22, servToUse.host;
+            servToUse.port = (servToUse.port) ? servToUse.port : 22
             mServer.set(servToUse.host, servToUse.defaultstate);
-            
+
             const lService: IService[] = ((servToUse.services !== undefined && servToUse.services !== null) ? servToUse.services : []);
             lService.forEach((aService: IService) => {
                 if ((aService.name !== null && aService.name !== undefined) && (aService.port !== undefined && aService.port !== null)) {
@@ -44,7 +44,8 @@ class ServerController {
     }
 
     async checkServer(aServer: IServer): Promise<void> {
-        const servUp: boolean = await this.telnet(aServer.port, aServer.host);
+        const port: number = (aServer.port) ? aServer.port : 80;
+        const servUp: boolean = await this.telnet(port, aServer.host);
         if ((mServer.get(aServer.host) !== servUp)) {
             Logger.info('serverChange: ' + aServer.name + ' --> ' + servUp);
             this.serverChange(aServer, servUp);
@@ -72,9 +73,9 @@ class ServerController {
     async telnet(port: number, host: string): Promise<boolean> {
         return await new Promise((resolve, reject) => {
             tcpPortUsed.check(port, host)
-                .then(function (inUse: string) {
+                .then((inUse: string) => {
                     resolve(true);
-                }, function (err: { message: any; }) {
+                }, (err: { message: any; }) =>  {
                     Logger.info('[' + host + ':' + port + '] Connection failed: ' + err.message, err);
                     resolve(false);
                 });
@@ -83,7 +84,7 @@ class ServerController {
 
     serverChange(aServer: IServer, servUp: boolean): void {
         mServer.set(aServer.host, servUp);
-        mailCtrl.alertServer(aServer, mServer.get(aServer.host));
+        mailCtrl.alertServer(aServer, !!mServer.get(aServer.host));
     }
 
     serviceChange(aService: IService, aServer: IServer, servUp: boolean): void {
