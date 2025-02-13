@@ -39,7 +39,7 @@ steps:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - source envvars
       - echo "🛠 Building Docker image..."
+      - source envvars
       - docker build -t ${CI_REPO_NAME,}:${CI_COMMIT_BRANCH}-$APP_VERSION .
     

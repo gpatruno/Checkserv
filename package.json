@@ -1,6 +1,6 @@
 {
   "name": "checkserv",
-  "version": "1.0.0",
+  "version": "2.4.1",
   "description": "Alert User by email when something goes wrong",
   "main": "server.ts",
   "scripts": {
